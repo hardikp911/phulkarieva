@@ -1,14 +1,11 @@
 <?php
-$servername = "localhost";
-$database = "phulkarieva";
-$username = "root";
-$password = "";
+   include 'config.php';
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
+$conn = mysqli_connect($host,$dbuser,$dbpassword,$dbname);
 // Check connection
 if ($conn->connect_error) {
 die("Connection failed: " . $conn->connect_error);
 }
-print_r("connection done");
-mysqli_close($conn);
+// print_r("connection done");
+
 ?>
