@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         // If validation passes, insert the user data into the database
-        $sql = "INSERT INTO login (fullname, email, password) VALUES ('$fullname', '$email', '$hashedPassword')";
+        $sql = "INSERT INTO login (fullname, email, password , roll) VALUES ('$fullname', '$email', '$hashedPassword' , 'user')";
         if (mysqli_query($conn, $sql)) {
             // User registration successful
             $_SESSION['fullname'] = $fullname;
@@ -36,18 +36,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['login'])) {
         $email = $_POST['login_email'];
         $password = $_POST['login_password'];
-        $sql = "SELECT password FROM login WHERE email = '$email'";
+        $sql = "SELECT password , roll , fullname FROM login WHERE email = '$email'";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
+
+            
                 $hashedPasswordFromDatabase = $row['password'];
+
+                $roll = $row['roll'];
+                $name = $row['fullname'];
+              
+
                 // Verify the password
                 if (password_verify($password, $hashedPasswordFromDatabase)) {
-                    $_SESSION['email'] = $email;
-                    header("Location: index.php");
-                    exit();
+
+                     if($roll == 'admin'){
+                        $_SESSION['email'] = $email;
+                        $_SESSION['fullname'] = $name;
+
+                        header("Location: ../admin");
+                        exit();
+                     }
+
+                     if ($roll == 'user'){
+                        $_SESSION['email'] = $email;
+                        $_SESSION['fullname'] = $name;
+
+                        header("Location: index.php");
+                        exit();
+                     }
+                   
                 } else {
                     $message = "Password is incorrect";
                 }
@@ -67,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Login/SignUp page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
 </head>
 
 <body>
@@ -120,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </div>
 
-    <script src="./login.js"></script>
+    <script src="./assets/js/login.js"></script>
 </body>
 
 </html>
