@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>phulkari eva - Product Detail Page</title>
-   
+    <title>Zay Shop - Product Detail Page</title>
+     
     <?php
    include ('./cssfiles.php');
 ?>
@@ -11,13 +11,8 @@
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-   
-    <!-- Close Top Nav -->
-
-
-    <!-- Header -->
-    <?php
+     <!-- Header -->
+     <?php
    include ('./navbar.php');
 ?>
     <!-- Close Header -->
@@ -707,8 +702,6 @@
     <?php
    include ('./footer.php');
 ?>
-
-
     <!-- Start Slider Script -->
     <script src="assets/js/slick.min.js"></script>
     <script>

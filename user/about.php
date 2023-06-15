@@ -5,20 +5,20 @@
     <title>phulkari eva - About Page</title>
 
     <?php
-   include ('./cssfiles.php');
-?>
+    include('./cssfiles.php');
+    ?>
 </head>
 
 <body>
     <!-- Start Top Nav -->
- 
+
     <!-- Close Top Nav -->
 
 
     <!-- Header -->
     <?php
-   include ('./navbar.php');
-?>
+    include('./navbar.php');
+    ?>
     <!-- Close Header -->
 
     <!-- Modal -->
@@ -46,13 +46,13 @@
                 <div class="col-md-8 text-white">
                     <h1>About Us</h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Welcome to Phulkari Eva, the realm of girls' clothing where fashion and originality collide. Our company is committed to offering a distinctive and unforgettable style that honours the unique qualities of each girl.
+                        We at Phulkari Eva are aware that every little girl is an individual with her own personality, dreams, and aspirations. Our goal is to encourage her to embrace her authenticity, express herself via fashion, and shine brilliantly in her own unique way.
+                        Our dedication to making clothes that not only looks amazing but also captures the spirit of every girl makes Phulkari Eva distinct. Each garment is painstakingly created by us, and is filled with vivid hues, elaborate designs, and exquisite detailing.
                     </p>
                 </div>
                 <div class="col-md-4">
-                    <img src="assets/img/about-hero.svg" alt="About Hero">
+                    <img src="./assets/images/svg/about-hero.svg" alt="About Hero">
                 </div>
             </div>
         </div>
@@ -208,8 +208,8 @@
     <!--End Brands-->
 
     <?php
-   include ('./footer.php');
-?>
+    include('./footer.php');
+    ?>
 </body>
 
 </html>

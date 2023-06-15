@@ -9,6 +9,8 @@
                 <span class="las la-bookmark"></span>
                 <span class="las la-sms "></span>
                 
-                 <span class="las la-sign-in-alt"></span>
+                <a href="./logout.php">
+                     <span class="las la-sign-in-alt"></span>
+                </a>
             </div>
         </header>
