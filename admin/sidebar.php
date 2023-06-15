@@ -1,7 +1,4 @@
-<?php
-session_start();
 
-?>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <div class="brand-flex">
@@ -32,29 +29,31 @@ session_start();
             ?>
         </div>
 
-
         <div class="sidebar-menu">
             <div class="menu-head">
                 <span class="category">Dashboard</span>
                 <ul>
-                    <li><a href="#"><span class="las la-balance-scale"></span>Finance</a></li>
-                    <li><a href="#"><span class="las la-chart-pie"></span>Analytics</a></li>
-
-                </ul>
-            </div>
-
-            <div class="menu-head">
-                <span class="category">Application</span>
-                <ul>
+                    <li><a href="./category.php"><span class="las la-balance-scale"></span>category</a></li>
+                    <li><a href="./product.php"><span class="lab la-product-hunt"></span>products</a></li>
                     <li><a href="#"><span class="las la-balance-scale"></span>Calender</a></li>
                     <li><a href="#"><span class="las la-users"></span>Contacts</a></li>
                     <li><a href="#"><span class="las la-shopping-cart"></span>Ecommerce</a></li>
                     <li><a href="#"><span class="las la-envelope"></span>Mailbox</a></li>
                     <li><a href="#"><span class="las la-check-circle"></span>Tasks</a></li>
+                    <li><a href="./user.php"><span class="lab la-jira"></span>users</a></li>
 
 
                 </ul>
             </div>
+<!-- 
+            <div class="menu-head">
+                <span class="category">Application</span>
+                <ul>
+                    
+
+
+                </ul>
+            </div> -->
         </div>
     </div>
 

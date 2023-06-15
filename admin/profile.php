@@ -115,52 +115,40 @@
                                     <form>
                                         <div class="mb-3">
                                             <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
-                                            <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="username">
+                                            <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" >
                                         </div>
-
                                         <div class="row gx-3 mb-3">
-
                                             <div class="col-md-12">
                                                 <label class="small mb-1" for="inputFirstName">Full name</label>
-                                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="full name">
+                                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" >
                                             </div>
-
                                         </div>
-
                                         <div class="row gx-3 mb-3">
-
                                             <div class="col-md-12">
                                                 <label class="small mb-1" for="inputLocation">Location</label>
-                                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="Vyas colony">
+                                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" >
                                             </div>
                                         </div>
                                         <div class="row gx-3 mb-3">
-
-
-
                                             <div class="col-md-12">
                                                 <label class="small mb-1" for="inputLandmark">Landmark</label>
-                                                <input class="form-control" id="inputLandmark" type="text" placeholder="Enter your Landmark" value="near, reliance fresh">
+                                                <input class="form-control" id="inputLandmark" type="text" placeholder="Enter your Landmark" >
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="name@example.com">
+                                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" >
                                         </div>
-
                                         <div class="row gx-3 mb-3">
-
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputPhone">Phone number</label>
-                                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="+91 00000-00000">
+                                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" >
                                             </div>
-
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="inputBirthday">Birthday</label>
-                                                <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="01/01/2023">
+                                                <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday">
                                             </div>
                                         </div>
-
                                         <button class="btn btn-primary" type="button">Save changes</button>
                                     </form>
                                 </div>
