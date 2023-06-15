@@ -8,5 +8,7 @@
                 <span class="las la-search"></span>
                 <span class="las la-bookmark"></span>
                 <span class="las la-sms "></span>
+                
+                 <span class="las la-sign-in-alt"></span>
             </div>
         </header>

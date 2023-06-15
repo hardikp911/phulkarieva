@@ -228,6 +228,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                    
                     <tr>
                       <td class="table-img">
                         <img

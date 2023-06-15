@@ -23,7 +23,7 @@
 </body>
 </html>
 <!-- partial -->
-  <script  src="./assets/js/script.js"></script>
+<?php include ('./footer.php');  ?>
 
 </body>
 </html>
