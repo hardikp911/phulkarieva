@@ -1,341 +1,193 @@
 <?php include('./header.php');  ?>
 <style type="text/css">
-    .card {
-        background-color: #fff;
-        border-radius: 10px;
-        border: none;
-        position: relative;
-        margin-bottom: 30px;
-        box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1), 0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12), 0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
-    }
+  .project-list-table {
+    border-collapse: separate;
+    border-spacing: 0 12px
+  }
 
-    .card .card-header {
-        border-bottom-color: #f9f9f9;
-        line-height: 30px;
-        -ms-grid-row-align: center;
-        align-self: center;
-        width: 100%;
-        padding: 10px 25px;
-        display: flex;
-        align-items: center;
-    }
+  .project-list-table tr {
+    background-color: #fff
+  }
 
-    .card .card-header,
-    .card .card-body,
-    .card .card-footer {
-        background-color: transparent;
-        padding: 20px 25px;
-    }
+  .table-nowrap td,
+  .table-nowrap th {
+    white-space: nowrap;
+  }
 
-    .card-header:first-child {
-        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
-    }
+  .table-borderless>:not(caption)>*>* {
+    border-bottom-width: 0;
+  }
 
-    .card-header {
-        padding: .75rem 1.25rem;
-        margin-bottom: 0;
-        background-color: rgba(0, 0, 0, .03);
-        border-bottom: 1px solid rgba(0, 0, 0, .125);
-    }
+  .table>:not(caption)>*>* {
+    padding: 0.75rem 0.75rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  }
 
-    .table:not(.table-sm) thead th {
-        border-bottom: none;
-        background-color: #e9e9eb;
-        color: #666;
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
+  .avatar-sm {
+    height: 8rem;
+    width: 8rem;
+  }
 
-    .table .table-img img {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        border: 2px solid #bbbbbb;
-        -webkit-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
-        -moz-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
-        -ms-box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
-        box-shadow: 5px 6px 15px 0px rgba(49, 47, 49, 0.5);
-        text-shadow: 0 0 black;
-    }
+  .rounded-circle {
+    border-radius: 50% !important;
+  }
 
-    .table .team-member-sm {
-        width: 32px;
-        -webkit-transition: all 0.25s ease;
-        -o-transition: all 0.25s ease;
-        -moz-transition: all 0.25s ease;
-        transition: all 0.25s ease;
-    }
+  .me-2 {
+    margin-right: 0.5rem !important;
+  }
 
-    .table .team-member {
-        position: relative;
-        width: 30px;
-        white-space: nowrap;
-        border-radius: 1000px;
-        vertical-align: bottom;
-        display: inline-block;
-    }
+  img,
+  svg {
+    vertical-align: middle;
+  }
 
-    .table .order-list li img {
-        border: 2px solid #ffffff;
-        box-shadow: 4px 3px 6px 0 rgba(0, 0, 0, 0.2);
-    }
+  a {
+    color: #3b76e1;
+    text-decoration: none;
+  }
 
-    .table .team-member img {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        border: 0;
-        border-radius: 1000px;
-    }
+  .badge-soft-danger {
+    color: #f56e6e !important;
+    background-color: rgba(245, 110, 110, .1);
+  }
 
-    .rounded-circle {
-        border-radius: 50% !important;
-    }
+  .badge-soft-success {
+    color: #63ad6f !important;
+    background-color: rgba(99, 173, 111, .1);
+  }
 
-    .table .order-list li+li {
-        margin-left: -14px;
-        background: transparent;
-    }
+  .badge-soft-primary {
+    color: #3b76e1 !important;
+    background-color: rgba(59, 118, 225, .1);
+  }
 
-    .avatar.avatar-sm {
-        font-size: 12px;
-        height: 30px;
-        width: 30px;
-    }
+  .badge-soft-info {
+    color: #57c9eb !important;
+    background-color: rgba(87, 201, 235, .1);
+  }
 
-    .avatar {
-        background: #6777ef;
-        border-radius: 50%;
-        color: #e3eaef;
-        display: inline-block;
-        font-size: 16px;
-        font-weight: 300;
-        margin: 0;
-        position: relative;
-        vertical-align: middle;
-        line-height: 1.28;
-        height: 45px;
-        width: 45px;
-    }
+  .avatar-title {
+    align-items: center;
+    background-color: #3b76e1;
+    color: #fff;
+    display: flex;
+    font-weight: 500;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
 
-    .table .order-list li .badge {
-        background: rgba(228, 222, 222, 0.8);
-        color: #6b6f82;
-        margin-bottom: 6px;
-    }
-
-    .badge {
-        vertical-align: middle;
-        padding: 7px 12px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-        border-radius: 30px;
-        font-size: 12px;
-    }
-
-    .progress-bar {
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: flex;
-        -ms-flex-direction: column;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        flex-direction: column;
-        -ms-flex-pack: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-        overflow: hidden;
-        color: #fff;
-        text-align: center;
-        white-space: nowrap;
-        background-color: #007bff;
-        -webkit-transition: width .6s ease;
-        transition: width .6s ease;
-    }
-
-    .bg-success {
-        background-color: #54ca68 !important;
-    }
-
-    .bg-purple {
-        background-color: #9c27b0 !important;
-        color: #fff;
-    }
-
-    .bg-cyan {
-        background-color: #10cfbd !important;
-        color: #fff;
-    }
-
-    .bg-red {
-        background-color: #f44336 !important;
-        color: #fff;
-    }
-
-    .progress {
-        -webkit-box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
-        box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.15);
-    }
+  .bg-soft-primary {
+    background-color: rgba(59, 118, 225, .25) !important;
+  }
 </style>
 
 <body>
-    <?php include('./sidebar.php');  ?>
+  <?php include('./sidebar.php');  ?>
 
-    <div class="main-content">
-        <?php include('./navbar.php');  ?>
+  <div class="main-content">
+    <?php include('./navbar.php');  ?>
 
-        <main>
-            <div class="main">
-                <div class="page-header">
-                    <div class="content">
-                        <h1>PAGENAME</h1>
-                    </div>
-                </div>
-
-            </div>
-            <section class="body">
-                <!-- code for use to make pages -->
-                <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-      crossorigin="anonymous"
-    />
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-sm-12 col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h4>Assign Project List</h4>
-            </div>
-            <div class="card-body">
-              <div
-                class="table-responsive"
-                id="proTeamScroll"
-                tabindex="2"
-                style="height: 400px; overflow: hidden; outline: none"
-              >
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>Cust.</th>
-                      <th>Project</th>
-                      <th>Assign Date</th>
-                      <th>Team</th>
-                      <th>Priority</th>
-                      <th>Status</th>
-                      <th>Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr>
-                      <td class="table-img">
-                        <img
-                          src="https://bootdey.com/img/Content/avatar/avatar8.png"
-                          alt
-                        />
-                      </td>
-                      <td>
-                        <h6 class="mb-0 font-13">Wordpress Website</h6>
-                        <p class="m-0 font-12">
-                          Assigned to<span class="col-green font-weight-bold">
-                            Airi Satou</span
-                          >
-                        </p>
-                      </td>
-                      <td>20-02-2018</td>
-                      <td class="text-truncate">
-                        <ul class="list-unstyled order-list m-b-0">
-                          <li class="team-member team-member-sm">
-                            <img
-                              class="rounded-circle"
-                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                              alt="user"
-                              data-toggle="tooltip"
-                              title
-                              data-original-title="Wildan Ahdian"
-                            />
-                          </li>
-                          <li class="team-member team-member-sm">
-                            <img
-                              class="rounded-circle"
-                              src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                              alt="user"
-                              data-toggle="tooltip"
-                              title
-                              data-original-title="John Deo"
-                            />
-                          </li>
-                          <li class="team-member team-member-sm">
-                            <img
-                              class="rounded-circle"
-                              src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                              alt="user"
-                              data-toggle="tooltip"
-                              title
-                              data-original-title="Sarah Smith"
-                            />
-                          </li>
-                          <li class="avatar avatar-sm">
-                            <span class="badge badge-primary">+4</span>
-                          </li>
-                        </ul>
-                      </td>
-                      <td>
-                        <div class="badge-outline col-red">High</div>
-                      </td>
-                      <td class="align-middle">
-                        <div class="progress-text">50%</div>
-                        <div
-                          class="progress"
-                          data-height="6"
-                          style="height: 6px"
-                        >
-                          <div
-                            class="progress-bar bg-success"
-                            data-width="50%"
-                            style="width: 50%"
-                          ></div>
-                        </div>
-                      </td>
-                      <td>
-                        <a
-                          data-toggle="tooltip"
-                          title
-                          data-original-title="Edit"
-                          ><i class="fas fa-pencil-alt"></i
-                        ></a>
-                        <a
-                          data-toggle="tooltip"
-                          title
-                          data-original-title="Delete"
-                          ><i class="far fa-trash-alt"></i
-                        ></a>
-                      </td>
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
+    <main>
+      <div class="main">
+        <div class="page-header">
+          <div class="content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Admin &gt; <span class="highlight">Product's page</span></h3>
+              <a href="./insertProduct.php" class="btn btn-primary">Insert Item</a>
             </div>
           </div>
         </div>
+
+
+
+
       </div>
-    </div>
-            </section>
-        </main>
-    </div>
-    <label for="sidebar" class="body-label" id="body-label"></label>
+      <section class="body">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class>
+                <div class="table-responsive">
+                  <table class="table project-list-table table-nowrap align-middle table-borderless">
+                    <thead>
+                      <tr>
+
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Product Size</th>
+                        <th scope="col">Product Rate</th>
+                        <th scope="col">Product color</th>
+                        <th scope="col">Product description</th>
+                        <th scope="col" style="width: 200px;">Action</th>
+                      </tr>
+                    </thead>
+                    <?php
+
+                    include('../database/connection.php');
+                    $sql = "SELECT * FROM products";
+                    $fetchproductresult = mysqli_query($conn, $sql);
+
+
+                    ?>
+                    <tbody>
+                      <?php
+                      while ($row = mysqli_fetch_assoc($fetchproductresult)) :
+
+                        $content = $row['product_description']; // Assuming $row['product_description'] contains the content you want to divide
+
+                        $words = explode(' ', $content); // Split the content into an array of words
+                        $lines = array_chunk($words, 7);
+                      ?>
+                        <tr>
+                          <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_name']; ?></span></td>
+                          <td><img src="<?php echo $row['product_image_path']; ?>" alt class="avatar-sm rounded-circle me-2" /></td>
+                          <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_size']; ?></span></td>
+                          <td style="width: 100px;"><?php echo $row['product_rate']; ?></td>
+                          <td style="width: 100px;"><?php echo $row['product_color']; ?></td>
+                          <td>
+                            <p><?php foreach ($lines as $line) {
+                                  echo implode(' ', $line) . "<br>"; // Output each line of words separated by a space and followed by a line break
+                                } ?></p>
+                          </td>
+
+                          <td>
+                            <ul class="list-inline mb-0">
+                              <li class="list-inline-item">
+                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" class="px-2 text-primary"><i class="bx bx-pencil font-size-18"></i></a>
+                              </li>
+                              <li class="list-inline-item">
+                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+
+
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+  <label for="sidebar" class="body-label" id="body-label"></label>
 </body>
 
 </html>
 <!-- partial -->
-<script src="./assets/js/script.js"></script>
+<?php include('./footer.php');  ?>
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript"></script>
 </body>
 
 </html>
