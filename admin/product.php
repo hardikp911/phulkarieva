@@ -111,7 +111,44 @@
             <div class="col-lg-12">
               <div class>
                 <div class="table-responsive">
+                  <?php
+
+                  include('../database/connection.php');
+                  $sql = "SELECT * FROM products";
+                  $fetchproductresult = mysqli_query($conn, $sql);
+
+                  if (isset($_POST['Delete'])) {
+                    $categoryId = $_POST['product_id'];
+                    $imgPath = $_POST['product_image_Path'];
+
+                    // Delete category from the database
+                    $deleteSql = "DELETE FROM products WHERE product_id = ?";
+                    $deleteStmt = mysqli_prepare($conn, $deleteSql);
+                    mysqli_stmt_bind_param($deleteStmt, "i", $categoryId);
+
+                    if (mysqli_stmt_execute($deleteStmt)) {
+                      // Delete the uploaded image from the file system
+                      if (file_exists($imgPath)) {
+                        unlink($imgPath);
+                      }
+                      // echo "Category deleted successfully";
+                      // Refresh the page after successful deletion
+                        // Redirect to the same page without the POST data
+                    } else {
+                      echo "Error deleting category.";
+                    }
+                  }
+
+
+                  ?>
+
                   <table class="table project-list-table table-nowrap align-middle table-borderless">
+                    <?php
+ if (mysqli_num_rows($fetchproductresult) == 0) {
+  echo "<h1>No products to display</h1>";
+} else {
+
+?>
                     <thead>
                       <tr>
 
@@ -124,47 +161,60 @@
                         <th scope="col" style="width: 200px;">Action</th>
                       </tr>
                     </thead>
-                    <?php
 
-                    include('../database/connection.php');
-                    $sql = "SELECT * FROM products";
-                    $fetchproductresult = mysqli_query($conn, $sql);
-
-
-                    ?>
                     <tbody>
                       <?php
-                      while ($row = mysqli_fetch_assoc($fetchproductresult)) :
+                     
 
-                        $content = $row['product_description']; // Assuming $row['product_description'] contains the content you want to divide
 
-                        $words = explode(' ', $content); // Split the content into an array of words
-                        $lines = array_chunk($words, 7);
+                        while ($row = mysqli_fetch_assoc($fetchproductresult)) {
+
+                          $content = $row['product_description']; // Assuming $row['product_description'] contains the content you want to divide
+
+                          $words = explode(' ', $content); // Split the content into an array of words
+                          $lines = array_chunk($words, 7);
                       ?>
-                        <tr>
-                          <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_name']; ?></span></td>
-                          <td><img src="<?php echo $row['product_image_path']; ?>" alt class="avatar-sm rounded-circle me-2" /></td>
-                          <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_size']; ?></span></td>
-                          <td style="width: 100px;"><?php echo $row['product_rate']; ?></td>
-                          <td style="width: 100px;"><?php echo $row['product_color']; ?></td>
-                          <td>
-                            <p><?php foreach ($lines as $line) {
-                                  echo implode(' ', $line) . "<br>"; // Output each line of words separated by a space and followed by a line break
-                                } ?></p>
-                          </td>
+                          <tr>
+                            <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_name']; ?></span></td>
+                            <td><img src="<?php echo $row['product_image_path']; ?>" alt class="avatar-sm rounded-circle me-2" /></td>
+                            <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_size']; ?></span></td>
+                            <td style="width: 100px;"><?php echo $row['product_rate']; ?></td>
+                            <td style="width: 100px;"><?php echo $row['product_color']; ?></td>
+                            <td>
+                              <p><?php foreach ($lines as $line) {
+                                    echo implode(' ', $line) . "<br>"; // Output each line of words separated by a space and followed by a line break
+                                  } ?></p>
+                            </td>
 
-                          <td>
-                            <ul class="list-inline mb-0">
-                              <li class="list-inline-item">
+                            <td>
+                              <ul class="list-inline mb-0">
+                                <!-- <li class="list-inline-item">
                                 <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" class="px-2 text-primary"><i class="bx bx-pencil font-size-18"></i></a>
-                              </li>
-                              <li class="list-inline-item">
+                              </li> -->
+                                <form action="edit_product.php" method="post">
+                                  <input type="hidden" name="product_id" value="PRODUCT_ID_HERE">
+                                  <button type="submit" class="btn btn-link text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                    <i class="bx bx-pencil font-size-18"></i>
+                                  </button>
+                                </form>
+
+                                <!-- <li class="list-inline-item">
                                 <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                      <?php endwhile; ?>
+                              </li> -->
+                                <form action="" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                  <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                                  <input type="hidden" name="product_image_Path" value="<?php echo $row['product_image_path']; ?>">
+
+                                  <button type="submit" class="btn btn-link text-danger" data-bs-toggle="tooltip" data-bs-placement="top" name="Delete">
+                                    <i class="bx bx-trash-alt font-size-18"></i>
+                                  </button>
+                                </form>
+
+                              </ul>
+                            </td>
+                          </tr>
+                      <?php }
+                      } ?>
 
 
 

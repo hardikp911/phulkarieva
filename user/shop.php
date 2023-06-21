@@ -112,7 +112,7 @@
                     ?>
 
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 pad-class">
                             <div class="card mb-4 product-wap rounded-0 product-card">
                                     <div class="card rounded-0">
                                     <img class="card-img rounded-0 img-fluid" src="../admin<?php echo $row['product_image_path']; ?>" >
@@ -138,16 +138,8 @@
                                                 <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
                                             </li>
                                         </ul>
-                                        <ul class="list-unstyled d-flex justify-content-center mb-1">
-                                            <li>
-                                                <i class="text-warning fa fa-star"></i>
-                                                <i class="text-warning fa fa-star"></i>
-                                                <i class="text-warning fa fa-star"></i>
-                                                <i class="text-muted fa fa-star"></i>
-                                                <i class="text-muted fa fa-star"></i>
-                                            </li>
-                                        </ul>
-                                        <p class="text-center mb-0"><?php echo $row['product_rate']; ?></p>
+                            
+                                        <p class="text-center mb-0">₹<?php echo $row['product_rate']; ?></p>
                                     </div>
                                 </div>
                             </div>

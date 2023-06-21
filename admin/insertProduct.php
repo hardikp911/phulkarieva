@@ -56,12 +56,16 @@ ini_set('display_errors', 1);
                           
                             // Retrieve form data
                             $productName = $_POST['productName'];
+                            $brand = $_POST['productBrand'];
+
                             $category = $_POST['category'];
                             $sizeOption = $_POST['sizeOption'];
                             $size = ($sizeOption == 'digit') ? $_POST['sizeDigit'] : $_POST['sizeRoman'];
                             $rate = $_POST['rate'];
                             $color = $_POST['color'];
                             $description = $_POST['description'];
+                            $Specification = $_POST['Specification'];
+
 
                             // Process the uploaded image
                             $upload_dir = "./assets/uploads/products/";
@@ -98,8 +102,8 @@ ini_set('display_errors', 1);
                             }
 
                             // Insert data into the database
-                            $query = "INSERT INTO products (product_name, category_id, size_option, product_size, product_rate, product_color, product_description, product_image_path) 
-              VALUES ('$productName', '$category', '$sizeOption', '$size', '$rate', '$color', '$description', '$image')";
+                            $query = "INSERT INTO products (product_name, product_brand, category_id, size_option, product_size, product_rate, product_color, product_description, product_Specification, product_image_path) 
+              VALUES ('$productName', '$brand' , '$category', '$sizeOption', '$size', '$rate', '$color', '$description', '$Specification', '$image')";
                             if (mysqli_query($conn, $query)) {
                                 echo "Data inserted successfully.";
                             } else {
@@ -119,6 +123,12 @@ ini_set('display_errors', 1);
                                                     <div class="mb-3">
                                                         <label class="form-label">Product name*</label>
                                                         <input type="text" class="form-control" name="productName" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Product Brand</label>
+                                                        <input type="text" class="form-control" name="productBrand" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -183,12 +193,20 @@ ini_set('display_errors', 1);
                                     </div>
                                     <div class="card mb-4">
                                         <div class="card-body">
-                                            <h3 class="h6 mb-4">Product Description*</h3>
+                                            <!-- <h3 class="h6 mb-4">Product Details*</h3> -->
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Product description*</label>
                                                         <textarea class="form-control" name="description" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Product Specification</label>
+                                                        <textarea class="form-control" name="Specification" ></textarea>
                                                     </div>
                                                 </div>
                                             </div>

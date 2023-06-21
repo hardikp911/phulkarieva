@@ -178,8 +178,7 @@
                                             <form method="post" action="">
                                                 <input type="hidden" name="categoryId" value="<?php echo $row['id']; ?>">
                                                 <input type="hidden" name="imgPath" value="<?php echo $row['imgpath']; ?>">
-                                                <button type="submit" name="delete"
-                                                    class="btn btn-white-custom radius-15">Delete Me</button>
+                                                <button type="submit" name="delete" class="btn btn-white-custom radius-15">Delete Me</button>
                                             </form>
                                         </div>
                                     </div>
