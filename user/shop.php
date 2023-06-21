@@ -104,6 +104,7 @@
 
 
                         while ($row = mysqli_fetch_assoc($fetchproductresult)) {
+                            $id = $row['product_id'];
 
 
 
@@ -117,9 +118,11 @@
                                     <img class="card-img rounded-0 img-fluid" src="../admin<?php echo $row['product_image_path']; ?>" >
                                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                             <ul class="list-unstyled">
-                                                <li><a class="btn btn-success text-white" href="shop-single.php"><i class="far fa-heart"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2" href="shop-single.php?id=<?php echo $id; ?>">   View product</a></li>
+
+                                                <!-- <li><a class="btn btn-success text-white" href="shop-single.php"><i class="far fa-heart"></i></a></li>
                                                 <li><a class="btn btn-success text-white mt-2" href="shop-single.php"><i class="far fa-eye"></i></a></li>
-                                                <li><a class="btn btn-success text-white mt-2" href="shop-single.php"><i class="fas fa-cart-plus"></i></a></li>
+                                                <li><a class="btn btn-success text-white mt-2" href="shop-single.php"><i class="fas fa-cart-plus"></i></a></li> -->
                                             </ul>
                                         </div>
                                     </div>
