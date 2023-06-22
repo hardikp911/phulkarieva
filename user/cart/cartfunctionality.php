@@ -8,7 +8,7 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                     
             $fullname = $_SESSION['fullname'];
             $email = $_SESSION['email'];
-            echo "Welcome, $fullname. Your email is $email.";
+            // echo "Welcome, $fullname. Your email is $email.";
 
             $query = "SELECT id FROM login WHERE fullname = '$fullname' AND email = '$email'";
             $result = mysqli_query($conn, $query);
@@ -34,7 +34,10 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
 
                 $updateQuery = "UPDATE cartdata SET product_quantity = '$newQuantity' WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'";
                 if (mysqli_query($conn, $updateQuery)) {
-                    echo "Quantity updated successfully.";
+                    if (isset($product_id)) {
+                          
+                        header("Location: ../shop-single.php?id=" . $product_id);
+                    }
                 } else {
                     echo "Error updating quantity: " . mysqli_error($conn);
                 }
@@ -44,7 +47,10 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                 $insertQuery = "INSERT INTO cartdata (user_id, product_id, product_size, product_quantity) 
                                 VALUES ('$user_id', '$product_id', '$product_size', '$quantity')";
                 if (mysqli_query($conn, $insertQuery)) {
-                    echo "Data inserted successfully.";
+                    if (isset($product_id)) {
+                          
+                        header("Location: ../shop-single.php?id=" . $product_id);
+                    }
                 } else {
                     echo "Error inserting data: " . mysqli_error($conn);
                 }
