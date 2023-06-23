@@ -60,8 +60,23 @@
                         $product_size = $row['product_size'];
                         $product_specification = $row['product_Specification'];
 
+                        $size_array = explode(",", $product_size); // Split the string into an array based on commas
 
 
+                        $html = '<ul class="list-inline pb-3">';
+                        $html .= '<li class="list-inline-item">Size :</li>';
+
+                        foreach ($size_array as $size) {
+                            $html .= '<li class="list-inline-item"><input type="radio" name="product_size" value="' . $size . '"> ' . $size . '</li>';
+                        }
+
+                        $html .= '</ul>';
+
+                        // Store the HTML code in a variable
+                        $output_html = $html;
+
+
+                       
 
 
                         $path = "../admin/" . $row['product_image_path'];
@@ -76,84 +91,7 @@
                     <div class="card mb-3">
                         <img class="card-img img-fluid" src="<?php echo $path; ?>" alt="Card image cap" id="product-detail">
                     </div>
-                    <!-- <div class="row">
-                        <div class="col-1 align-self-center">
-                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
-                                <i class="text-dark fas fa-chevron-left"></i>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </div>
-                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
-                            <div class="carousel-inner product-links-wap" role="listbox">
-
-                                <div class="carousel-item active">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_01.jpg" alt="Product Image 1">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_02.jpg" alt="Product Image 2">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_03.jpg" alt="Product Image 3">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_04.jpg" alt="Product Image 4">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_05.jpg" alt="Product Image 5">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_06.jpg" alt="Product Image 6">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_07.jpg" alt="Product Image 7">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_08.jpg" alt="Product Image 8">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_09.jpg" alt="Product Image 9">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1 align-self-center">
-                            <a href="#multi-item-example" role="button" data-bs-slide="next">
-                                <i class="text-dark fas fa-chevron-right"></i>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div> -->
+                 
                 </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">
@@ -202,73 +140,7 @@
                                  <?php
                             }
                             ?>
-                            <!-- <form action="" method="GET">
-                                <input type="hidden" name="product-title" value="Activewear">
-                                <div class="row">
-                                    <div class="col-auto">
-
-                                        <?php
-                                        if (isset($size_option) && $size_option == 'roman') {
-
-
-                                        ?>
-                                            <ul class="list-inline pb-3">
-                                                <li class="list-inline-item">Size :
-                                                    <input type="hidden" name="product-size" id="product-size" value="S">
-                                                </li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">S</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">M</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">L</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">XXL</span></li>
-
-                                            </ul>
-                                        <?php
-                                        }
-                                        ?>
-                                        <?php
-                                        if (isset($size_option) && $size_option == 'digit') {
-
-
-                                        ?>
-                                            <ul class="list-inline pb-3">
-                                                <li class="list-inline-item">Size :
-                                                    <input type="hidden" name="product-size" id="product-size" value="S">
-                                                </li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">22</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">34</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">54</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success btn-size">23</span></li>
-                                            </ul>
-                                        <?php
-                                        }
-                                        ?>
-
-
-
-                                    </div>
-                                    <div class="col-auto">
-                                        <ul class="list-inline pb-3">
-                                            <li class="list-inline-item text-right">
-                                                Quantity
-                                                <input type="hidden" name="product-quanity" id="product-quanity" value="1">
-                                            </li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row pb-3">
-                                    <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                                    </div>
-                                    <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
-                                    </div>
-                                </div>
-                            </form> -->
-
+                         
                             <form action="./cart/cartfunctionality.php" method="post">
                                      <input type="hidden" name="product_id" value="<?php echo $id; ?>">
 
@@ -276,24 +148,27 @@
                                     <div class="col-auto">
                                        <!-- Size options -->
                                         <?php if (isset($size_option) && $size_option == 'roman') { ?>
-                                            <ul class="list-inline pb-3">
+                                            <!-- <ul class="list-inline pb-3">
                                                 <li class="list-inline-item">Size :</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="S" checked> S</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="M"> M</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="L"> L</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="XL"> XL</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="XXL"> XXL</li>
-                                            </ul>
+                                            </ul> -->
+                                            <?php echo $output_html; ?>
+
                                         <?php } ?>
 
                                         <?php if (isset($size_option) && $size_option == 'digit') { ?>
-                                            <ul class="list-inline pb-3">
+                                            <!-- <ul class="list-inline pb-3">
                                                 <li class="list-inline-item">Size :</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="22" checked> 22</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="34"> 34</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="54"> 54</li>
                                                 <li class="list-inline-item"><input type="radio" name="product_size" value="23"> 23</li>
-                                            </ul>
+                                            </ul> -->
+                                            <?php echo $output_html; ?>
                                         <?php } ?>
                                     </div>
                                     <div class="col-auto">

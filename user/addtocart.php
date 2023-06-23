@@ -101,6 +101,14 @@
                             $productImage = ltrim($productImage, '.');
                             $prefix = "../admin";
                             $productImage = $prefix . $productImage;
+                            $total = 0;
+                     
+                                // Calculate the subtotal for each item
+                                $subtotal = $productrate * $productQuantity;
+                                $total += $subtotal; // Add subtotal to the total
+                           
+
+
                         ?>
                             <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
                                 <div class="media d-block d-sm-flex text-center text-sm-left">
@@ -120,10 +128,10 @@
                                 </div>
                                 <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem">
                                     <div class="form-group mb-2">
-                                        <label for="quantity1">Quantity</label>
-                                        <input class="form-control form-control-sm" type="number" id="quantity1" value="<?php echo $productQuantity;    ?>" />
+                                        <label for="quantity<?php echo $productid; ?>">Quantity</label>
+                                        <input class="form-control form-control-sm" type="number" id="quantity<?php echo $productid; ?>" value="<?php echo $productQuantity; ?>" />
                                     </div>
-                                    <button class="btn btn-outline-secondary btn-sm btn-block mb-2" type="button">
+                                    <button class="btn btn-outline-secondary btn-sm btn-block mb-2 update-cart" type="button" data-user-id="<?php echo $user_id; ?>" data-product-id="<?php echo $productid; ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw mr-1">
                                             <polyline points="23 4 23 10 17 10"></polyline>
                                             <polyline points="1 20 1 14 7 14"></polyline>
@@ -144,21 +152,21 @@
 
                     </div>
 
+                    <!-- Code for displaying the subtotal -->
                     <div class="col-xl-3 col-md-4 pt-3 pt-md-0">
                         <h2 class="h6 px-4 py-3 bg-secondary text-center">Subtotal</h2>
-                        <div class="h3 font-weight-semibold text-center py-3">$325.00</div>
+                        <div class="h3 font-weight-semibold text-center py-3">$<?php echo number_format($total, 2); ?></div>
                         <hr />
                         <h3 class="h6 pt-4 font-weight-semibold">
-                            <span class="badge badge-success mr-2">Note</span>Additional
-                            comments
+                            <span class="badge badge-success mr-2">Note</span>Additional comments
                         </h3>
                         <textarea class="form-control mb-3" id="order-comments" rows="5"></textarea>
-                        <a class="btn btn-primary btn-block" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-2">
+                        <a class="btn btn-primary btn-block" href="./proceedToCheckOut.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-2">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                                 <line x1="1" y1="10" x2="23" y2="10"></line>
-                            </svg>Proceed to Checkout</a>
-
+                            </svg>Proceed to Checkout
+                        </a>
                     </div>
                 </div>
             </div>
@@ -170,21 +178,53 @@
     include('./footer.php');
     ?>
     <script>
-          function removeFromCart(user_id, productid, productSize) {
-        // Make an AJAX request to cartdelete.php with the parameters
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                // Handle the response from deleteCartItem.php if needed
-                console.log(this.responseText);
-                  
-                   
-            }
-        };
-        xhttp.open("GET", "./cart/deleteCartItem.php?user_id=" + user_id + "&product_id=" + productid + "&sproduct_size=" + productSize, true);
-        xhttp.send();
-    }
-  
+        function removeFromCart(user_id, productid, productSize) {
+            // Make an AJAX request to cartdelete.php with the parameters
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Handle the response from deleteCartItem.php if needed
+                    console.log(this.responseText);
+
+
+                }
+            };
+            xhttp.open("GET", "./cart/deleteCartItem.php?user_id=" + user_id + "&product_id=" + productid + "&sproduct_size=" + productSize, true);
+            xhttp.send();
+        }
+    </script>
+
+    <!-- JavaScript code for updating the cart -->
+    <script>
+        // Add event listeners to update cart buttons
+        var updateButtons = document.getElementsByClassName('update-cart');
+        Array.prototype.forEach.call(updateButtons, function(button) {
+            button.addEventListener('click', function() {
+                var userId = button.getAttribute('data-user-id');
+                var productId = button.getAttribute('data-product-id');
+                var quantityInput = document.getElementById('quantity' + productId);
+                var newQuantity = quantityInput.value;
+
+                // Perform the update operation using AJAX or form submission
+                // Here, I'll provide an example using jQuery AJAX
+                $.ajax({
+                    url: 'update_cart.php', // Replace with the actual update script URL
+                    method: 'POST',
+                    data: {
+                        user_id: userId,
+                        product_id: productId,
+                        quantity: newQuantity
+                    },
+                    success: function(response) {
+                        // Handle the success response, if needed
+                        // You can update the cart display dynamically or refresh the page
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle the error, if needed
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
