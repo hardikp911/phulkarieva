@@ -88,6 +88,8 @@
               FROM cartdata
               JOIN products ON cartdata.product_id = products.product_id
               WHERE cartdata.user_id = '$user_id'";
+                                          $total = 0;
+
                         $cartResult = mysqli_query($conn, $cartQuery);
                         while ($cartRow = mysqli_fetch_assoc($cartResult)) {
 
@@ -101,7 +103,6 @@
                             $productImage = ltrim($productImage, '.');
                             $prefix = "../admin";
                             $productImage = $prefix . $productImage;
-                            $total = 0;
                      
                                 // Calculate the subtotal for each item
                                 $subtotal = $productrate * $productQuantity;
