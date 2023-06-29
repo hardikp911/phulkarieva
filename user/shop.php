@@ -23,26 +23,6 @@
     include('./navbar.php');
     ?>
     <!-- Close Header -->
-
-    <!-- Modal -->
-    <!-- <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
- -->
-
-
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
@@ -105,6 +85,17 @@
 
                         while ($row = mysqli_fetch_assoc($fetchproductresult)) {
                             $id = $row['product_id'];
+                            $productImage = $row['product_image_path'];
+                            $productImage = ltrim($productImage, '.');
+                            $prefix = "../admin";
+                            $path = $prefix . $productImage;
+
+                            $size = $row['product_size'];
+                            $size_array = explode(",", $size); // Split the string into an array based on commas
+                            $first_five_values = array_slice($size_array, 0, 5); // Extract the first 5 values
+                            $first_five_values_string = implode(', ', $first_five_values); // Convert the array to a string
+                            
+                           
 
 
 
@@ -115,7 +106,7 @@
                             <div class="col-md-4 pad-class">
                             <div class="card mb-4 product-wap rounded-0 product-card">
                                     <div class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" src="../admin<?php echo $row['product_image_path']; ?>" >
+                                    <img class="card-img rounded-0 img-fluid" src="<?php echo $path; ?>" >
                                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                             <ul class="list-unstyled">
                                             <li><a class="btn btn-success text-white mt-2" href="shop-single.php?id=<?php echo $id; ?>">   View product</a></li>
@@ -129,7 +120,7 @@
                                     <div class="card-body">
                                         <a href="shop-single.php" class="h3 text-decoration-none"><?php echo $row['product_name']; ?></a>
                                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                            <li><?php echo $row['product_size']; ?></li>
+                                            <li><?php echo $first_five_values_string; ?></li>
                                             <li class="pt-2">
                                                 <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
                                                 <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>

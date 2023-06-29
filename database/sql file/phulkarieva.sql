@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2023 at 10:17 PM
+-- Generation Time: Jun 29, 2023 at 08:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -40,7 +40,9 @@ CREATE TABLE `cartdata` (
 --
 
 INSERT INTO `cartdata` (`cart_id`, `user_id`, `product_id`, `product_size`, `product_quantity`) VALUES
-(20, 8, 13, 'b', 2);
+(23, 25, 14, '32', 2),
+(21, 8, 13, 'xl', 2),
+(22, 25, 13, 'xl', 2);
 
 -- --------------------------------------------------------
 
@@ -74,30 +76,24 @@ CREATE TABLE `login` (
   `email` varchar(225) NOT NULL,
   `password` varchar(225) NOT NULL,
   `roll` varchar(225) NOT NULL,
-  `phone_number` int(255) DEFAULT NULL,
+  `phone_number` bigint(255) DEFAULT NULL,
   `user_address` varchar(225) DEFAULT NULL,
+  `user_address2` varchar(225) DEFAULT NULL,
   `user_city` varchar(225) DEFAULT NULL,
-  `city_zipcode` int(225) DEFAULT NULL
+  `city_zipcode` bigint(225) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `login`
 --
 
-INSERT INTO `login` (`id`, `fullname`, `email`, `password`, `roll`, `phone_number`, `user_address`, `user_city`, `city_zipcode`) VALUES
-(7, 'hardik', 'hardik3259@gmail.com', '$2y$10$Wvu/ndqAdNAeguW8fbmnFe95YCi1VaKH1tYmUsfYaqQKvkJmz30um', 'admin', NULL, NULL, NULL, NULL),
-(8, 'hardik parmar', 'hardik23259@gmail.com', '$2y$10$vS.6IPYpxWLw7XNDudD4OeM9pI/ELGcoVK/m8d/NAk.0ohpb/grQu', 'user', NULL, NULL, NULL, NULL),
-(9, 'asdasd', 'hardik223259@gmail.com', '$2y$10$Wvz7CVDiz8JNnXfHwjx0DOplVjTLNovObz11CXAifCrVdo5xA42my', 'user', NULL, NULL, NULL, NULL),
-(10, 'asdasd', 'hardik23259@gmadil.com', '$2y$10$YT0Pu3r43i//722IhbvJMeEzi5jP8fX52FcmXLQkzPfcqtqis.BTi', 'user', NULL, NULL, NULL, NULL),
-(11, 'asdasd', 'hardik23259@gmadil.com', '$2y$10$vCq7uJLJK8Hy0X/K.GWjH.xZ9JiQl.eThG4rZVqHqeD1F5CQDHBby', 'user', NULL, NULL, NULL, NULL),
-(12, 'as', 'hardik23259@gmail.com', '$2y$10$i7rIGzca0m02RkawgeGlquHN5nr5GHG1YEYTK06U43Hh84UiL2sr.', 'user', NULL, NULL, NULL, NULL),
-(13, 'g', 'hardik23259@gmail.com', '$2y$10$5eiV9.UN.lpfO7fEUg9as.Ioe6wV/.hKTU0A9pjDi0bDiMpcw.jnm', 'user', NULL, NULL, NULL, NULL),
-(14, 'ghj', 'hardik23259@gmail.com', '$2y$10$nh1FBGTY4lEwPyFmTuh5gui2sGaPUx81HUsozf85iUEid/TfzA7B.', 'user', NULL, NULL, NULL, NULL),
-(15, 'sd', 'hardik23259@gmail.com', '$2y$10$.RqX..Rpxc/yBr7tpoCVHeE9fBoPLpyfbEP7Rfkg2XNtCNp05gJk2', 'user', NULL, NULL, NULL, NULL),
-(16, 'fd', 'hardik23259@gmail.com', '$2y$10$Ptretx6loH4fPP/21U3HauuugifeCGB7J87p0snwyHHWXg6Mo17vy', 'user', NULL, NULL, NULL, NULL),
-(17, 'fd', 'hardik23259@gmail.com', '$2y$10$zS1hUpngw7UUumwOWPBoC.tzijPbZaTZS1g4NCOiaoJ0Ivwtd0Ati', 'user', NULL, NULL, NULL, NULL),
-(18, 'asd', 'hardik23259@gmail.com', '$2y$10$PsHM53gpr/sQtSNxaAU1Rugfvb9ruMbG2z4UYzcVD2uXvqReCP3cS', 'user', NULL, NULL, NULL, NULL),
-(19, 'aS', 'hardik23259@gmail.com', '$2y$10$kGHliJmsjn.dEyuxmI/BG.p8.NjDdEeHfQA2z4CzwPREliMvtJFQO', 'user', NULL, NULL, NULL, NULL);
+INSERT INTO `login` (`id`, `fullname`, `email`, `password`, `roll`, `phone_number`, `user_address`, `user_address2`, `user_city`, `city_zipcode`) VALUES
+(20, 'Yash goyal', 'yash@123.com', '$2y$10$dxgUpl3fhSnkdulbkMMN4.Vi5hZd2JTD1EWuZoJSOjKHosPHou4F2', 'admin', NULL, NULL, NULL, NULL, NULL),
+(21, 'admin', 'admin1@google.com', '$2y$10$v5lV/.C96UccuMwkcpXMWeZA3OsMgim0PNVp.PAc34NOWrr/RRRp.', 'admin', 65555555557, 'acc fd c', ' asdf ds', 'Napasar', 1234),
+(22, 'admin', 'admin@google.com', '$2y$10$CC7A5XelArJtHggvySkopebhE3UvHOC8vQtlXAOwm8I9Af4G5LtvS', 'user', 98375973966, 'pawan puri bikanercc', 'near relienc fresh , sanjaypark', 'Deshnok', 3340011),
+(23, 'day', 'anandrambkn@gmail.com', '$2y$10$JKq6Limsf.FGUZKGJoIkG.VNiV8Z4hpek9z2I7jZq1096C5oPPpoa', 'user', 9413737698, 'goyal', 'dadadadadaddad', 'Deshnok', 334003),
+(24, 'Yash Goyal', 'yashgoyal36@gmail.com', '$2y$10$N82IpoCXCqdZ4u/mcci2wOd2c7Etp4pw2Gxc1tMeS/VvK/YXImEEW', 'user', 95714, '2-E-308', 'Jnv colony, Bikaner, Rajasthan', 'Deshnok', 334003),
+(25, 'hardik parmar', 'hardik23259@gmail.com', '$2y$10$Fba5diHW/0lhetj5IEmcDO77p7g3UFm6fYTf0cKMxeaV4qGcK6gCy', 'user', 9116763067, '1-b-13 pawan puri bikaner', 'left busari colony. kothrud depo.', 'Nagaur', 334001);
 
 -- --------------------------------------------------------
 
@@ -106,11 +102,19 @@ INSERT INTO `login` (`id`, `fullname`, `email`, `password`, `roll`, `phone_numbe
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(255) NOT NULL,
+  `order_id` int(225) NOT NULL,
   `user_id` int(225) NOT NULL,
-  `cart_id` int(225) DEFAULT NULL,
-  `product_id` int(225) DEFAULT NULL
+  `user_email` varchar(225) NOT NULL,
+  `invoice_id` int(225) NOT NULL,
+  `cart_data` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `user_email`, `invoice_id`, `cart_data`) VALUES
+(3, 21, 'admin1@google.com', 782, 'a:2:{i:0;a:8:{s:10:\"product_id\";s:2:\"14\";s:12:\"product_size\";s:2:\"32\";s:16:\"product_Quantity\";s:1:\"2\";s:18:\"product_image_path\";s:77:\"../admin/assets/uploads/products/wallpapersden.com_monkey-luffy_1920x1080.jpg\";s:12:\"product_name\";s:16:\"hardik parmar as\";s:13:\"product_color\";s:4:\"blue\";s:12:\"product_rate\";s:3:\"123\";s:9:\"delivered\";s:9:\"Delivered\";}i:1;a:8:{s:10:\"product_id\";s:2:\"13\";s:12:\"product_size\";s:2:\"xl\";s:16:\"product_Quantity\";s:1:\"2\";s:18:\"product_image_path\";s:41:\"../admin/assets/uploads/products/edit.jpg\";s:12:\"product_name\";s:13:\"hardik parmar\";s:13:\"product_color\";s:4:\"blue\";s:12:\"product_rate\";s:3:\"123\";s:9:\"delivered\";s:9:\"Delivered\";}}');
 
 -- --------------------------------------------------------
 
@@ -138,7 +142,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_brand`, `category_id`, `size_option`, `product_size`, `product_rate`, `product_color`, `product_description`, `product_Specification`, `product_image_path`) VALUES
 (13, 'hardik parmar', 'hardik', 16, 'roman', 'xl,b', 123, 'blue', 'asc a s ca', 'c dbddfg \r\n dfg\r\ndfg dfg \r\n dfg', './assets/uploads/products/edit.jpg'),
-(14, 'hardik parmar as', 'asd qc3w', 15, 'digit', '32,43,54,32,12,32', 123, 'blue', 'asd asd sa dc', ' asdfsdf sad fsdca', './assets/uploads/products/wallpapersden.com_monkey-luffy_1920x1080.jpg');
+(14, 'hardik parmar as', 'asd qc3w', 15, 'digit', '32,43,32,54,65,76,9854,32,12,32', 123, 'blue', 'asd asd sa dc', ' asdfsdf sad fsdca', './assets/uploads/products/wallpapersden.com_monkey-luffy_1920x1080.jpg');
 
 --
 -- Indexes for dumped tables
@@ -166,9 +170,7 @@ ALTER TABLE `login`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`),
-  ADD UNIQUE KEY `user_id` (`user_id`),
-  ADD UNIQUE KEY `cart_id` (`cart_id`);
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `products`
@@ -184,7 +186,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `cartdata`
 --
 ALTER TABLE `cartdata`
-  MODIFY `cart_id` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `cart_id` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -196,7 +198,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`

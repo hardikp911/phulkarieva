@@ -73,6 +73,11 @@
                     $email = $_SESSION['email'];
                 ?>
 
+                    <a class="nav-icon position-relative text-decoration-none" href="./orders.php">
+                        <img src="./assets/images/svg/order.png" alt="SVG Image" width="50px" height="50px">
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">orders</span>
+                    </a>
 
 
                     <a class="nav-icon position-relative text-decoration-none" href="./addtocart.php">

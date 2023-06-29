@@ -198,34 +198,34 @@
     <!-- JavaScript code for updating the cart -->
     <script>
         // Add event listeners to update cart buttons
-        var updateButtons = document.getElementsByClassName('update-cart');
-        Array.prototype.forEach.call(updateButtons, function(button) {
-            button.addEventListener('click', function() {
-                var userId = button.getAttribute('data-user-id');
-                var productId = button.getAttribute('data-product-id');
-                var quantityInput = document.getElementById('quantity' + productId);
-                var newQuantity = quantityInput.value;
+        // var updateButtons = document.getElementsByClassName('update-cart');
+        // Array.prototype.forEach.call(updateButtons, function(button) {
+        //     button.addEventListener('click', function() {
+        //         var userId = button.getAttribute('data-user-id');
+        //         var productId = button.getAttribute('data-product-id');
+        //         var quantityInput = document.getElementById('quantity' + productId);
+        //         var newQuantity = quantityInput.value;
 
-                // Perform the update operation using AJAX or form submission
-                // Here, I'll provide an example using jQuery AJAX
-                $.ajax({
-                    url: 'update_cart.php', // Replace with the actual update script URL
-                    method: 'POST',
-                    data: {
-                        user_id: userId,
-                        product_id: productId,
-                        quantity: newQuantity
-                    },
-                    success: function(response) {
-                        // Handle the success response, if needed
-                        // You can update the cart display dynamically or refresh the page
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle the error, if needed
-                    }
-                });
-            });
-        });
+        //         // Perform the update operation using AJAX or form submission
+        //         // Here, I'll provide an example using jQuery AJAX
+        //         $.ajax({
+        //             url: 'update_cart.php', // Replace with the actual update script URL
+        //             method: 'POST',
+        //             data: {
+        //                 user_id: userId,
+        //                 product_id: productId,
+        //                 quantity: newQuantity
+        //             },
+        //             success: function(response) {
+        //                 // Handle the success response, if needed
+        //                 // You can update the cart display dynamically or refresh the page
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 // Handle the error, if needed
+        //             }
+        //         });
+        //     });
+        // });
     </script>
 </body>
 

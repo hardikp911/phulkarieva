@@ -125,7 +125,9 @@
                                             'product_image_path' => $productImage,
                                             'product_name' => $productName,
                                             'product_color' => $productcolor,
-                                            'product_rate' => $productrate
+                                            'product_rate' => $productrate,
+                                            'delivered' => 'Not Delivered'
+
                                         ];
 
                                         // Add the cart item to the cart_data array
@@ -270,8 +272,8 @@
 
 
                         <form action="./thanks.php" method="post">
-                            <input type="hidden" name="user_data" value="<?php echo htmlentities(serialize($user_data)); ?>">
-                            <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
+                        <input type="hidden" name="user_id" value="<?php echo htmlentities($user_id); ?>">
+                            <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">                            <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
                             <input type="hidden" name="invoiceNumber" value="<?php echo htmlentities($invoiceNumber); ?>">
 
                             <button class="btn btn-primary btn-block" type="submit">

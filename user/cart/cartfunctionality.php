@@ -17,10 +17,19 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                 $user_id = $row['id'];
             }
 
-            // Get the product details from the form
-            $product_id = $_POST['product_id'];
-            $product_size = $_POST['product_size'];
-            $quantity = $_POST['quantity'];
+            if (isset($_POST['product_id'], $_POST['product_size'], $_POST['quantity'])) {
+                // Variables are set
+                $product_id = $_POST['product_id'];
+                $product_size = $_POST['product_size'];
+                $quantity = $_POST['quantity'];
+            
+                // Further processing or validation
+            } else {
+                echo " not set";
+            }
+
+
+        
 
             // Check if the same product with the same size already exists in the cart
             $query = "SELECT * FROM cartdata WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'";
@@ -43,7 +52,7 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                 }
             } else {
                 // Product with the same size doesn't exist, create a new entry
-                $quantity = $quantity + 1;
+                
                 $insertQuery = "INSERT INTO cartdata (user_id, product_id, product_size, product_quantity) 
                                 VALUES ('$user_id', '$product_id', '$product_size', '$quantity')";
                 if (mysqli_query($conn, $insertQuery)) {

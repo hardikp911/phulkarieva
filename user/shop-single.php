@@ -60,38 +60,29 @@
                         $product_size = $row['product_size'];
                         $product_specification = $row['product_Specification'];
 
+                        $productImage = $row['product_image_path'];
+                        $productImage = ltrim($productImage, '.');
+                        $prefix = "../admin";
+                        $path = $prefix . $productImage;
+
+
+
+
                         $size_array = explode(",", $product_size); // Split the string into an array based on commas
-
-
                         $html = '<ul class="list-inline pb-3">';
                         $html .= '<li class="list-inline-item">Size :</li>';
-
                         foreach ($size_array as $size) {
-                            $html .= '<li class="list-inline-item"><input type="radio" name="product_size" value="' . $size . '"> ' . $size . '</li>';
+                            $html .= '<li class="list-inline-item"><input type="radio" name="product_size" value="' . $size . '" required> ' . $size . '</li>';
                         }
-
                         $html .= '</ul>';
-
                         // Store the HTML code in a variable
                         $output_html = $html;
-
-
-                       
-
-
-                        $path = "../admin/" . $row['product_image_path'];
                     }
-
-
-
                     ?>
-
-
-
                     <div class="card mb-3">
                         <img class="card-img img-fluid" src="<?php echo $path; ?>" alt="Card image cap" id="product-detail">
                     </div>
-                 
+
                 </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">
@@ -99,7 +90,7 @@
                         <div class="card-body">
                             <h1 class="h2"><?php echo $name; ?></h1>
                             <p class="h3 py-2">₹<?php echo $rates; ?></p>
-                       
+
 
                             <?php
                             if (isset($brand) && !empty($brand)) {
@@ -132,79 +123,81 @@
 
                             <?php
 
-                            if(isset($product_specification) && !empty($product_specification)){                          
-                                ?>
-                                   <h6>Specification:</h6>
-                            <spam><?php echo nl2br(htmlspecialchars($product_specification)); ?></spam>
-                          
-                                 <?php
+                            if (isset($product_specification) && !empty($product_specification)) {
+                            ?>
+                                <h6>Specification:</h6>
+                                <spam><?php echo nl2br(htmlspecialchars($product_specification)); ?></spam>
+
+                            <?php
                             }
                             ?>
-                         
+
                             <form action="./cart/cartfunctionality.php" method="post">
-                                     <input type="hidden" name="product_id" value="<?php echo $id; ?>">
+                                <input type="hidden" name="product_id" value="<?php echo $id; ?>">
 
                                 <div class="row">
                                     <div class="col-auto">
-                                       <!-- Size options -->
+                                        <!-- Size options -->
                                         <?php if (isset($size_option) && $size_option == 'roman') { ?>
-                                            <!-- <ul class="list-inline pb-3">
-                                                <li class="list-inline-item">Size :</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="S" checked> S</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="M"> M</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="L"> L</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="XL"> XL</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="XXL"> XXL</li>
-                                            </ul> -->
+
                                             <?php echo $output_html; ?>
 
                                         <?php } ?>
 
                                         <?php if (isset($size_option) && $size_option == 'digit') { ?>
-                                            <!-- <ul class="list-inline pb-3">
-                                                <li class="list-inline-item">Size :</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="22" checked> 22</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="34"> 34</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="54"> 54</li>
-                                                <li class="list-inline-item"><input type="radio" name="product_size" value="23"> 23</li>
-                                            </ul> -->
+
                                             <?php echo $output_html; ?>
                                         <?php } ?>
+                                         <!-- Validation error message -->
+                                        <?php if (isset($size_option) && empty($_POST['product_size'])) { ?>
+                                            <p class="error">Please select a size.</p>
+                                        <?php } ?>
                                     </div>
-                                    <div class="col-auto">
-                                            <!-- Quantity options -->
-                                            <ul class="list-inline pb-3">
-                                                <li class="list-inline-item text-right">Quantity</li>
-                                                <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                                <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">0</span></li>
-                                                <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                            </ul>
-                                            <input type="hidden" name="quantity" id="product-quantity" value="1">
+                                    <div>
+                                        <input type="hidden" name="quantity" id="product-quantity" value="1">
                                     </div>
+
                                 </div>
                                 <?php
                                 if (isset($_SESSION['fullname']) && isset($_SESSION['email'])) {
 
                                 ?>
-                    <div class="row pb-3">
-                        <div class="col d-grid">
+                                    <div class="row pb-3">
+                                        <!-- <div class="col d-grid">
                             <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                        </div>
-                        <div class="col d-grid">
-                            <button type="submit" class="btn btn-success btn-lg" name="addtocart" value="addtocart">Add To Cart</button>
-                        </div>
-                    </div>
+                        </div> -->
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="addtocart" value="addtocart">Add To Cart</button>
+                                        </div>
+                                    </div>
 
                                 <?php
-                                }else if (!isset($_SESSION['fullname'])) {
-        echo '<div class="alert alert-danger" role="alert">';
-        echo '<strong>Please login to proceed with your purchase.</strong>';
-        echo '</div>';
-        echo '<p><a href="login.php?id='.$id.'" class="btn btn-primary">Click here to login</a></p>';
-    
+                                } else if (!isset($_SESSION['fullname'])) {
+                                    echo '<div class="alert alert-danger" role="alert">';
+                                    echo '<strong>Please login to proceed with your purchase.</strong>';
+                                    echo '</div>';
+                                    echo '<p><a href="login.php?id=' . $id . '" class="btn btn-primary">Click here to login</a></p>';
                                 }
                                 ?>
                             </form>
+
+
+                            <?php
+                            if (isset($_SESSION['fullname']) && isset($_SESSION['email'])) {
+
+                            ?>
+
+                                <div class="row pb-3">
+
+                                    <div class="col d-grid">
+                                        <button class="btn btn-info btn-lg" onclick="redirectToCart()">View Cart</button>
+                                    </div>
+
+
+                                </div>
+                            <?php
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -314,39 +307,12 @@
                 }
             ]
         });
+
+        function redirectToCart() {
+            window.location.href = "orders.php";
+        }
     </script>
- <script>
-    document.getElementById("btn-minus").addEventListener("click", function() {
-        var quantityInput = document.getElementById("product-quantity");
-        var quantity = parseInt(quantityInput.value);
-        if (quantity > 1) {
-            quantityInput.value = quantity - 1;
-            document.getElementById("var-value").textContent = quantity - 1;
-        }
-        if (quantity === 4) {
-            document.getElementById("btn-plus").style.display = "inline-block";
-        }
-    });
-
-    document.getElementById("btn-plus").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent form submission
-        var quantityInput = document.getElementById("product-quantity");
-        var quantity = parseInt(quantityInput.value);
-        if (quantity < 4) { // Check if quantity is less than the maximum limit (4)
-            quantityInput.value = quantity + 1;
-
-           
-            document.getElementById("var-value").textContent = quantity + 1;
-        }
-        if (quantity === 3) {
-            document.getElementById("btn-plus").style.display = "none";
-        }
-        if (quantity === 4) {
-            document.getElementById("btn-plus").style.display = "inline-block";
-        }
-       
-    });
-</script>
+    
 
 
     <!-- End Slider Script -->
