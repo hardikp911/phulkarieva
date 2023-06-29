@@ -98,10 +98,10 @@
 
 
 
-                                    $cartQuery = "SELECT cartdata.product_size, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_color, products.product_rate, products.product_id
-                                        FROM cartdata
-                                        JOIN products ON cartdata.product_id = products.product_id
-                                        WHERE cartdata.user_id = '$user_id'";
+                                    $cartQuery = "SELECT cartdata.cart_id,cartdata.product_size, cartdata.product_color, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_rate, products.product_id
+                                    FROM cartdata
+                                    JOIN products ON cartdata.product_id = products.product_id
+                                    WHERE cartdata.user_id = '$user_id'";
                                     $cartResult = mysqli_query($conn, $cartQuery);
                                     while ($cartRow = mysqli_fetch_assoc($cartResult)) {
 
@@ -273,8 +273,11 @@
 
                         <form action="./thanks.php" method="post">
                         <input type="hidden" name="user_id" value="<?php echo htmlentities($user_id); ?>">
-                            <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">                            <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
+                            <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">                            
+                            <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
                             <input type="hidden" name="invoiceNumber" value="<?php echo htmlentities($invoiceNumber); ?>">
+                            <input type="hidden" name="order_total" value="<?php echo htmlentities($total); ?>">
+
 
                             <button class="btn btn-primary btn-block" type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-2">

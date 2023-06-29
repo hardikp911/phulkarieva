@@ -6,6 +6,10 @@
 
     <?php
     include('./cssfiles.php');
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
     ?>
 
 </head>
@@ -66,11 +70,21 @@
                         $path = $prefix . $productImage;
 
 
+                        $size_array_color = explode(",", $color); // Split the string into an array based on commas
+                        $html_color = '<ul class="list-inline pb-3">';
+                        $html_color .= '<li class="list-inline-item"> <h6>Avaliable Color: </h6></li>';
+                        foreach ($size_array_color as $size) {
+                            $html_color .= '<li class="list-inline-item"><input type="radio" name="product_color" value="' . $size . '" required> ' . $size . '</li>';
+                        }
+                        $html_color .= '</ul>';
+                        $output_color = $html_color;
+
+
 
 
                         $size_array = explode(",", $product_size); // Split the string into an array based on commas
                         $html = '<ul class="list-inline pb-3">';
-                        $html .= '<li class="list-inline-item">Size :</li>';
+                        $html .= '<li class="list-inline-item"> <h6>Size :</h6></li>';
                         foreach ($size_array as $size) {
                             $html .= '<li class="list-inline-item"><input type="radio" name="product_size" value="' . $size . '" required> ' . $size . '</li>';
                         }
@@ -112,21 +126,21 @@
 
                             <h6>Description:</h6>
                             <p><?php echo $details; ?></p>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <h6>Avaliable Color :</h6>
-                                </li>
-                                <li class="list-inline-item">
-                                    <p class="text-muted"><strong><?php echo $color; ?></strong></p>
-                                </li>
-                            </ul>
+                     
 
                             <?php
 
                             if (isset($product_specification) && !empty($product_specification)) {
                             ?>
+                            <!-- <li class="list-inline-item"> -->
+
                                 <h6>Specification:</h6>
+                                <!-- </li> -->
+                                <li class="list-inline-item">
+
                                 <spam><?php echo nl2br(htmlspecialchars($product_specification)); ?></spam>
+                                </li>
+                                <br><br>
 
                             <?php
                             }
@@ -136,6 +150,9 @@
                                 <input type="hidden" name="product_id" value="<?php echo $id; ?>">
 
                                 <div class="row">
+                                <div class="col-auto">
+                                            <?php echo $output_color; ?>
+                                    </div>
                                     <div class="col-auto">
                                         <!-- Size options -->
                                         <?php if (isset($size_option) && $size_option == 'roman') { ?>
@@ -148,10 +165,7 @@
 
                                             <?php echo $output_html; ?>
                                         <?php } ?>
-                                         <!-- Validation error message -->
-                                        <?php if (isset($size_option) && empty($_POST['product_size'])) { ?>
-                                            <p class="error">Please select a size.</p>
-                                        <?php } ?>
+                                      
                                     </div>
                                     <div>
                                         <input type="hidden" name="quantity" id="product-quantity" value="1">
@@ -163,10 +177,7 @@
 
                                 ?>
                                     <div class="row pb-3">
-                                        <!-- <div class="col d-grid">
-                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                        </div> -->
-                                        <div class="col d-grid">
+                                      <div class="col d-grid">
                                             <button type="submit" class="btn btn-success btn-lg" name="addtocart" value="addtocart">Add To Cart</button>
                                         </div>
                                     </div>

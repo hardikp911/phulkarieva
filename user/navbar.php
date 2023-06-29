@@ -80,7 +80,7 @@
                     </a>
 
 
-                    <a class="nav-icon position-relative text-decoration-none" href="./addtocart.php">
+                    <a class="nav-icon position-relative text-decoration-none" href="./cart.php">
                         <img src="./assets/images/svg/cart.svg" alt="SVG Image">
 
                         <?php

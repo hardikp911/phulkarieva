@@ -69,7 +69,7 @@
         <div class="row py-5">
             <div class="container pb-5 mt-n2 mt-md-n3">
                 <div class="row">
-                    <div class="col-xl-7 col-md-7">
+                <div class="col-xl-7 col-md-7 border">
                         <h2 class="h6 d-flex flex-wrap justify-content-between align-items-center px-4 py-3 bg-secondary">
                             <span>Orders Not Delivered</span><a class="font-size-sm" href="./shop.php"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left" style="width: 1rem; height: 1rem">
                                     <polyline points="15 18 9 12 15 6"></polyline>
@@ -88,6 +88,8 @@
 
                             while ($row = mysqli_fetch_assoc($result)) {
                                 $cart_data = unserialize($row['cart_data']);
+
+                                $total_bill = $row['total_bill'];
 
 
                                 // Iterate through each item in the cart_data array
@@ -126,16 +128,18 @@
                                                         <span class="text-muted mr-2">Color:</span>
                                                         <?php echo $color; ?>
                                                     </div>
-                                                    <div class="font-size-lg text-primary pt-2">
-                                                        $<?php echo $rate; ?>
-                                                    </div>
+                                                    
 
 
                                                 </div>
                                             </div>
                                             <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem">
                                                 <div>
-                                                    <p><br>
+                                                <div class="font-size-lg text-primary pt-2">
+                                                        $<?php echo $total_bill; ?>
+                                                    </div>
+                                                    <p>
+                                                        <br>
                                                         <span class="badge bg-danger rounded-pill"><?php echo $delivered; ?></span>
                                                     </p>
 
@@ -168,7 +172,7 @@
                     </div>
                     
                 
-                    <div class="col-xl-5 col-md-5">
+                    <div class="col-xl-5 col-md-5 ">
                         <h2 class="h6 d-flex flex-wrap justify-content-between align-items-center px-4 py-3 bg-secondary">
                             <span>Orders Delivered</span>
                         </h2>

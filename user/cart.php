@@ -84,15 +84,17 @@
                             }
                         }
                         // Fetch cart data for the user from cartdata table
-                        $cartQuery = "SELECT cartdata.product_size, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_color, products.product_rate, products.product_id
+                        $cartQuery = "SELECT cartdata.cart_id,cartdata.product_size, cartdata.product_color, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_rate, products.product_id
               FROM cartdata
               JOIN products ON cartdata.product_id = products.product_id
               WHERE cartdata.user_id = '$user_id'";
-                                          $total = 0;
+                        $total = 0;
+                      
 
                         $cartResult = mysqli_query($conn, $cartQuery);
                         while ($cartRow = mysqli_fetch_assoc($cartResult)) {
 
+                            $cart_id = $cartRow['cart_id'];
                             $productid = $cartRow['product_id'];
                             $productSize = $cartRow['product_size'];
                             $productQuantity = $cartRow['product_Quantity'];
@@ -103,11 +105,11 @@
                             $productImage = ltrim($productImage, '.');
                             $prefix = "../admin";
                             $productImage = $prefix . $productImage;
-                     
-                                // Calculate the subtotal for each item
-                                $subtotal = $productrate * $productQuantity;
-                                $total += $subtotal; // Add subtotal to the total
-                           
+
+                            // Calculate the subtotal for each item
+                            $subtotal = $productrate * $productQuantity;
+                            $total += $subtotal; // Add subtotal to the total
+
 
 
                         ?>
@@ -128,18 +130,28 @@
                                     </div>
                                 </div>
                                 <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem">
-                                    <div class="form-group mb-2">
-                                        <label for="quantity<?php echo $productid; ?>">Quantity</label>
-                                        <input class="form-control form-control-sm" type="number" id="quantity<?php echo $productid; ?>" value="<?php echo $productQuantity; ?>" />
-                                    </div>
-                                    <button class="btn btn-outline-secondary btn-sm btn-block mb-2 update-cart" type="button" data-user-id="<?php echo $user_id; ?>" data-product-id="<?php echo $productid; ?>">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw mr-1">
-                                            <polyline points="23 4 23 10 17 10"></polyline>
-                                            <polyline points="1 20 1 14 7 14"></polyline>
-                                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                                        </svg>Update cart
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="button" onclick="removeFromCart('<?php echo $user_id; ?>', '<?php echo $productid; ?>', '<?php echo $productSize; ?>')">
+                                   
+
+                                    <form action="./cart/updatecart.php" method="POST">
+                                    <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">                          
+                                      <!--  -->
+                                    
+                                        <div class="form-group mb-2">
+                                            <label for="quantity<?php echo $productid; ?>">Quantity</label>
+                                            <input class="form-control form-control-sm" type="number" id="quantity<?php echo $productid; ?>" name="quantity" value="<?php echo $productQuantity; ?>" />
+                                        </div>
+                                        <button class="btn btn-outline-secondary btn-sm btn-block mb-2" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw mr-1">
+                                                <polyline points="23 4 23 10 17 10"></polyline>
+                                                <polyline points="1 20 1 14 7 14"></polyline>
+                                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                            </svg>Update cart
+                                        </button>
+                                    </form>
+                                    <form action="./cart/deletecartitem.php" method="POST">
+                                    <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">                          
+
+                                    <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 mr-1">
                                             <polyline points="3 6 5 6 21 6"></polyline>
                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -147,6 +159,7 @@
                                             <line x1="14" y1="11" x2="14" y2="17"></line>
                                         </svg>Remove
                                     </button>
+                                    </form>
                                 </div>
                             </div>
                         <?php  } ?>
@@ -158,10 +171,10 @@
                         <h2 class="h6 px-4 py-3 bg-secondary text-center">Subtotal</h2>
                         <div class="h3 font-weight-semibold text-center py-3">$<?php echo number_format($total, 2); ?></div>
                         <hr />
-                        <h3 class="h6 pt-4 font-weight-semibold">
+                        <!-- <h3 class="h6 pt-4 font-weight-semibold">
                             <span class="badge badge-success mr-2">Note</span>Additional comments
-                        </h3>
-                        <textarea class="form-control mb-3" id="order-comments" rows="5"></textarea>
+                        </h3> -->
+                        <!-- <textarea class="form-control mb-3" id="order-comments" rows="5"></textarea> -->
                         <a class="btn btn-primary btn-block" href="./proceedToCheckOut.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-2">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -178,7 +191,7 @@
     <?php
     include('./footer.php');
     ?>
-    <script>
+    <!-- <script>
         function removeFromCart(user_id, productid, productSize) {
             // Make an AJAX request to cartdelete.php with the parameters
             var xhttp = new XMLHttpRequest();
@@ -193,7 +206,7 @@
             xhttp.open("GET", "./cart/deleteCartItem.php?user_id=" + user_id + "&product_id=" + productid + "&sproduct_size=" + productSize, true);
             xhttp.send();
         }
-    </script>
+    </script> -->
 
     <!-- JavaScript code for updating the cart -->
     <script>

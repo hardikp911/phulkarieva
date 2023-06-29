@@ -7,10 +7,12 @@ include('../database/connection.php');
 
 // Retrieve the POST data
 $cart_data = unserialize($_POST['cart_data']);
-
+$total_bill = $_POST['order_total'];
 $user_id = $_POST['user_id'];
 $user_email = $_POST['user_email'];
 $invoiceNumber = $_POST['invoiceNumber'];
+
+
 
 // Check if the user already exists in the database
 $existingData = mysqli_query($conn, "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$user_email'");
@@ -22,11 +24,14 @@ if (mysqli_num_rows($existingData) > 0) {
     // Merge the existing cart data with the new cart data
     $cart_data = array_merge($existingCartData, $cart_data);
 
+
     // Serialize the updated cart data
     $cart_data = serialize($cart_data);
 
     // Update the existing row with the merged cart data
-    $sql = "UPDATE orders SET cart_data = '$cart_data' WHERE user_id = '$user_id' AND user_email = '$user_email'";
+    // $sql = "UPDATE orders SET cart_data = '$cart_data' WHERE user_id = '$user_id' AND user_email = '$user_email'";
+    $sql = "UPDATE orders SET cart_data = '$cart_data', total_bill = '$total_bill' WHERE user_id = '$user_id' AND user_email = '$user_email'";
+
 
     if (mysqli_query($conn, $sql)) {
         $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
@@ -43,7 +48,7 @@ if (mysqli_num_rows($existingData) > 0) {
     // User does not exist, insert a new row
     $cart_data = serialize($cart_data);
 
-    $sql = "INSERT INTO orders (user_id, user_email, invoice_id, cart_data) VALUES ('$user_id', '$user_email', '$invoiceNumber', '$cart_data')";
+    $sql = "INSERT INTO orders (user_id, user_email, invoice_id, cart_data , total_bill) VALUES ('$user_id', '$user_email', '$invoiceNumber', '$cart_data', '$total_bill')";
 
     if (mysqli_query($conn, $sql)) {
         $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";

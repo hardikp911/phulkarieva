@@ -21,18 +21,16 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                 // Variables are set
                 $product_id = $_POST['product_id'];
                 $product_size = $_POST['product_size'];
+                $product_color = $_POST['product_color'];
+
                 $quantity = $_POST['quantity'];
             
                 // Further processing or validation
             } else {
                 echo " not set";
             }
-
-
-        
-
             // Check if the same product with the same size already exists in the cart
-            $query = "SELECT * FROM cartdata WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'";
+            $query = "SELECT * FROM cartdata WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'AND product_color = '$product_color' ";
             $result = mysqli_query($conn, $query);
 
             if (mysqli_num_rows($result) > 0) {
@@ -41,7 +39,7 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
                 $existingQuantity = $row['product_quantity'];
                 $newQuantity = $existingQuantity + $quantity;
 
-                $updateQuery = "UPDATE cartdata SET product_quantity = '$newQuantity' WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'";
+                $updateQuery = "UPDATE cartdata SET product_quantity = '$newQuantity' WHERE user_id = '$user_id' AND product_id = '$product_id' AND product_size = '$product_size'AND product_color = '$product_color'";
                 if (mysqli_query($conn, $updateQuery)) {
                     if (isset($product_id)) {
                           
@@ -53,8 +51,8 @@ if(isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
             } else {
                 // Product with the same size doesn't exist, create a new entry
                 
-                $insertQuery = "INSERT INTO cartdata (user_id, product_id, product_size, product_quantity) 
-                                VALUES ('$user_id', '$product_id', '$product_size', '$quantity')";
+                $insertQuery = "INSERT INTO cartdata (user_id, product_id, product_size, product_color , product_quantity) 
+                                VALUES ('$user_id', '$product_id', '$product_size', '$product_color', '$quantity')";
                 if (mysqli_query($conn, $insertQuery)) {
                     if (isset($product_id)) {
                           
