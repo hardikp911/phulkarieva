@@ -126,6 +126,7 @@
                                             'product_name' => $productName,
                                             'product_color' => $productcolor,
                                             'product_rate' => $productrate,
+                                            'product_total' => $productQuantity * $productrate,
                                             'delivered' => 'Not Delivered'
 
                                         ];
