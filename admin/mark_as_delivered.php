@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];
     $item_index = $_POST['item_index'];
     $invoice_id = $_POST['invoice_id'];
-    $url = "view_order.php?user_id=" . urlencode($user_id) . "&invoice_id=" . urlencode($invoice_id);
 
-   
+    $url = "view_order_list.php?id=" . urlencode($user_id) . "&invoice=" . urlencode($invoice_id);
+
     // Retrieve the cart_data from the database using the $user_id
     $query = "SELECT cart_data FROM orders WHERE user_id = '$user_id' AND invoice_id = '$invoice_id' ";
     $result = mysqli_query($conn, $query);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($cart_data[$item_index])) {
 
 
-        $cart_data[$item_index]['delivered'] = 'Returned';
+        $cart_data[$item_index]['delivered'] = 'Delivered';
 
                     // print_r($cart_data[$item_index]);
             // die;

@@ -36,6 +36,8 @@
                     <li><a href="./category.php"><span class="las la-balance-scale"></span>category</a></li>
                     <li><a href="./insertProduct.php"><span class="lab la-jira"></span>Insert Product</a></li>
                     <li><a href="./product.php"><span class="lab la-product-hunt"></span>products</a></li>
+                    <li><a href="./orders.php"><span class="lab la-product-hunt"></span>orders</a></li>
+
                     <!-- <li><a href="#"><span class="las la-balance-scale"></span>Calender</a></li>
                     <li><a href="#"><span class="las la-users"></span>Contacts</a></li>
                     <li><a href="#"><span class="las la-shopping-cart"></span>Ecommerce</a></li>

@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>phulkari eva - Contact</title>
-    <?php
-    include('./cssfiles.php');
-    include('./session.php');
-
-    ?>
-    <style type="text/css">
+<?php include ('./header.php');  ?>
+<style type="text/css">
         .cart-item-thumb {
             display: block;
             width: 10rem
@@ -54,18 +45,23 @@
             font-weight: 600 !important;
         }
     </style>
-</head>
-
 <body>
+<?php include ('./sidebar.php');  ?>
 
+    <div class="main-content">
+    <?php include ('./navbar.php');  ?>
 
-
-    <!-- Header -->
-    <?php
-    include('./navbar.php');
-    ?>
-    <!-- Close Header -->
-    <div class="container py-5">
+        <main>
+            <div class="main">
+                <div class="page-header">
+                    <div class="content">
+                    <h3>Admin &gt; <span class="highlight">Order details page</span></h3>
+                    </div>
+                </div>
+                
+            </div>
+            <section class="body">
+            <div class="container py-5">
         <div class="row py-5">
             <div class="container pb-5 mt-n2 mt-md-n3">
                 <div class="row">
@@ -82,9 +78,16 @@
                             ini_set('display_errors', 1);
                             ini_set('display_startup_errors', 1);
                             error_reporting(E_ALL);
+                            include('../database/connection.php');
 
 
+                            if (isset($_GET['id']) && isset($_GET['email']) ) {
+                                $email = $_GET['email'];
+                                $user_id = $_GET['id'];
+                                
 
+                                // Further processing for GET request
+                            }
 
                         // $sql = "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$email'";
                         $sql = "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$email' ORDER BY order_id DESC";
@@ -104,7 +107,7 @@
                                 $cart_data = unserialize($row['cart_data']);
                                 $cart_count = count($cart_data);
 
-
+                            
                                 $total = 0;
                                 foreach ($cart_data as $item) {
                     
@@ -117,18 +120,10 @@
                                     }
                                 }
                                 
-
-
-                                // echo "<pre>";   
-                                // print_r();
-                                // die;
-
-
-
                         ?>
                                         <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
                                             <div class="media d-block d-sm-flex text-center text-sm-left">
-                                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="./assets/images/order_sample.jpg" alt="Product" /></a>
+                                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="../user/assets/images/order_sample.jpg" alt="Product" /></a>
                                                 <div class="media-body pt-3">
                                                     <h3 class="product-card-title font-weight-semibold border-0 pb-0">
                                                         <a href="#">
@@ -170,11 +165,10 @@
                                                     </p>
 
                                                 </div>
-                                                <form action="./view_order.php" method="POST">
+                                                <form action="./view_order_list.php" method="POST">
                                                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                                     <input type="hidden" name="invoice_id" value="<?php echo $invoice_id; ?>">
-                                                   
-
+                                                  
                                                     <button class="btn btn-outline-primary btn-sm btn-block mb-2" type="submit">
                                                        view order
                                                     </button>
@@ -201,9 +195,14 @@
             </div>
         </div>
     </div>
-    <?php
-    include('./footer.php');
-    ?>
+            </section>
+        </main>
+    </div>
+    <label for="sidebar" class="body-label" id="body-label"></label>
 </body>
+</html>
+<!-- partial -->
+<?php include ('./footer.php');  ?>
 
+</body>
 </html>

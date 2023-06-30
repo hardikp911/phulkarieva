@@ -1,66 +1,111 @@
 <?php
 
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+// include('../database/connection.php');
+
+// // Retrieve the POST data
+// $cart_data = unserialize($_POST['cart_data']);
+// $total_bill = $_POST['order_total'];
+// $user_id = $_POST['user_id'];
+// $user_email = $_POST['user_email'];
+// $invoiceNumber = $_POST['invoiceNumber'];
+
+
+
+// // Check if the user already exists in the database
+// $existingData = mysqli_query($conn, "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$user_email'");
+// if (mysqli_num_rows($existingData) > 0) {
+//     // User exists, retrieve the current cart data
+//     $row = mysqli_fetch_assoc($existingData);
+//     $existingCartData = unserialize($row['cart_data']);
+
+//     // Merge the existing cart data with the new cart data
+//     $cart_data = array_merge($existingCartData, $cart_data);
+
+
+//     // Serialize the updated cart data
+//     $cart_data = serialize($cart_data);
+
+//     // Update the existing row with the merged cart data
+//     // $sql = "UPDATE orders SET cart_data = '$cart_data' WHERE user_id = '$user_id' AND user_email = '$user_email'";
+//     $sql = "UPDATE orders SET cart_data = '$cart_data', total_bill = '$total_bill' WHERE user_id = '$user_id' AND user_email = '$user_email'";
+
+
+//     if (mysqli_query($conn, $sql)) {
+//         $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
+//         if (mysqli_query($conn, $deleteCartQuery)) {
+//             echo "Cart data deleted successfully.";
+//             echo "Data updated successfully.";
+//         } else {
+//             echo "Error deleting cart data: " . mysqli_error($conn);
+//         }
+//     } else {
+//         echo "Error: " . mysqli_error($conn);
+//     }
+// } else {
+//     // User does not exist, insert a new row
+//     $cart_data = serialize($cart_data);
+
+//     $sql = "INSERT INTO orders (user_id, user_email, invoice_id, cart_data , total_bill) VALUES ('$user_id', '$user_email', '$invoiceNumber', '$cart_data', '$total_bill')";
+
+//     if (mysqli_query($conn, $sql)) {
+//         $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
+//         if (mysqli_query($conn, $deleteCartQuery)) {
+//             echo "Cart data deleted successfully.";
+//             echo "Data stored successfully.";
+//         } else {
+//             echo "Error deleting cart data: " . mysqli_error($conn);
+//         }
+//     } else {
+//         echo "Error: " . mysqli_error($conn);
+//     }
+// }
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include('../database/connection.php');
 
-// Retrieve the POST data
 $cart_data = unserialize($_POST['cart_data']);
-$total_bill = $_POST['order_total'];
+
 $user_id = $_POST['user_id'];
 $user_email = $_POST['user_email'];
 $invoiceNumber = $_POST['invoiceNumber'];
 
+// Function to check if invoice number exists
+function isInvoiceNumberExists($conn, $invoiceNumber) {
+    $query = "SELECT invoice_id FROM orders WHERE invoice_id = '$invoiceNumber'";
+    $result = mysqli_query($conn, $query);
+    return mysqli_num_rows($result) > 0;
+}
 
+// Generate a random digit from 1 to 10
+function generateRandomDigit() {
+    return rand(1, 10);
+}
 
-// Check if the user already exists in the database
-$existingData = mysqli_query($conn, "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$user_email'");
-if (mysqli_num_rows($existingData) > 0) {
-    // User exists, retrieve the current cart data
-    $row = mysqli_fetch_assoc($existingData);
-    $existingCartData = unserialize($row['cart_data']);
+// Check if the invoice number already exists
+while (isInvoiceNumberExists($conn, $invoiceNumber)) {
+    $invoiceNumber .= generateRandomDigit(); // Append a random digit to the invoice number
+}
 
-    // Merge the existing cart data with the new cart data
-    $cart_data = array_merge($existingCartData, $cart_data);
+$cart_data = serialize($cart_data);
 
+$sql = "INSERT INTO orders (user_id, user_email, invoice_id, cart_data, date) 
+        VALUES ('$user_id', '$user_email', '$invoiceNumber', '$cart_data', NOW())";
 
-    // Serialize the updated cart data
-    $cart_data = serialize($cart_data);
-
-    // Update the existing row with the merged cart data
-    // $sql = "UPDATE orders SET cart_data = '$cart_data' WHERE user_id = '$user_id' AND user_email = '$user_email'";
-    $sql = "UPDATE orders SET cart_data = '$cart_data', total_bill = '$total_bill' WHERE user_id = '$user_id' AND user_email = '$user_email'";
-
-
-    if (mysqli_query($conn, $sql)) {
-        $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
-        if (mysqli_query($conn, $deleteCartQuery)) {
-            echo "Cart data deleted successfully.";
-            echo "Data updated successfully.";
-        } else {
-            echo "Error deleting cart data: " . mysqli_error($conn);
-        }
+if (mysqli_query($conn, $sql)) {
+    $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
+    if (mysqli_query($conn, $deleteCartQuery)) {
+        echo "Cart data deleted successfully.";
+        echo "Data stored successfully.";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error deleting cart data: " . mysqli_error($conn);
     }
 } else {
-    // User does not exist, insert a new row
-    $cart_data = serialize($cart_data);
-
-    $sql = "INSERT INTO orders (user_id, user_email, invoice_id, cart_data , total_bill) VALUES ('$user_id', '$user_email', '$invoiceNumber', '$cart_data', '$total_bill')";
-
-    if (mysqli_query($conn, $sql)) {
-        $deleteCartQuery = "DELETE FROM cartdata WHERE user_id = '$user_id'";
-        if (mysqli_query($conn, $deleteCartQuery)) {
-            echo "Cart data deleted successfully.";
-            echo "Data stored successfully.";
-        } else {
-            echo "Error deleting cart data: " . mysqli_error($conn);
-        }
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
+    echo "Error: " . mysqli_error($conn);
 }
 
 

@@ -277,7 +277,7 @@
                             <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">                            
                             <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
                             <input type="hidden" name="invoiceNumber" value="<?php echo htmlentities($invoiceNumber); ?>">
-                            <input type="hidden" name="order_total" value="<?php echo htmlentities($total); ?>">
+                            
 
 
                             <button class="btn btn-primary btn-block" type="submit">

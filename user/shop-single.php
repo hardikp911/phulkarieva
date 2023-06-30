@@ -238,6 +238,10 @@
 
                     while ($row = mysqli_fetch_assoc($fetchproductresult)) {
                         $id = $row['product_id'];
+                        $productImage = $row['product_image_path'];
+                        $productImage = ltrim($productImage, '.');
+                        $prefix = "../admin";
+                        $path = $prefix . $productImage;
 
 
 
@@ -247,7 +251,7 @@
                         <div class="p-2 pb-3">
                             <div class="product-wap card rounded-0 product-card">
                                 <div class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" src="../admin<?php echo $row['product_image_path']; ?>">
+                                    <img class="card-img rounded-0 img-fluid" src="<?php echo $path; ?>">
                                     <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                         <ul class="list-unstyled">
                                             <li><a class="btn btn-success text-white mt-2" href="shop-single.php?id=<?php echo $id; ?>"> View product</a></li>
@@ -320,7 +324,7 @@
         });
 
         function redirectToCart() {
-            window.location.href = "orders.php";
+            window.location.href = "./cart.php";
         }
     </script>
     
