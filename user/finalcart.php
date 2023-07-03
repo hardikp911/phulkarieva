@@ -56,7 +56,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center py-3">
-                <?php $invoiceNumber =  rand(100,   999); ?>
+                <?php $invoiceNumber =  rand(10000,   99999); ?>
                 <h2 class="h5 mb-0"><a href="#" class="text-muted"></a>Order # <?php echo $invoiceNumber; ?></h2>
             </div>
 
@@ -72,24 +72,13 @@
 
                                     <?php
 
-                                    // if (isset($_SESSION['email']) && isset($_SESSION['fullname'])) {
-                                    //     $fullname = $_SESSION['fullname'];
-                                    //     $email = $_SESSION['email'];
-                                    $user_data = []; // Create an empty array
+                              
 
                                     $query = "SELECT id FROM login WHERE fullname = '$fullname' AND email = '$email'";
                                     $result = mysqli_query($conn, $query);
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $user_id = $row['id'];
-                                        // Create an associative array for the user data
-                                        $user_item = [
-                                            'user_id' => $user_id,
-                                            'fullname' => $fullname,
-                                            'email' => $email
-                                        ];
-
-                                        // Assign the user data to the $user_data variable
-                                        $user_data = $user_item;
+                                       
                                     }
                                     // }
 
@@ -221,6 +210,11 @@
                                     $phone_number = $row['phone_number'];
                                     $user_address = $row['user_address'];
                                     $user_address2 = $row['user_address2'];
+                                    $user_city = $row['user_city'];
+                                    $city_zipcode = $row['city_zipcode'];
+                                    $combined_address = $user_address . "\n" . $user_address2 . " " . $user_city . ", " . $city_zipcode;
+
+
                                 }
 
 
@@ -269,14 +263,23 @@
                                 <abbr title="Phone">P:</abbr><?php echo $phone_number; ?>
                             </address>
                         </div>
+                      
 
-
+                        <?php 
+                        $total-=20;
+                        if (
+                            isset($user_id) &&    isset($email) &&    isset($fullname) &&
+                            isset($combined_address) &&    isset($cart_data) &&    isset($invoiceNumber) &&  ($total > 0)
+                        ) {  ?>
 
                         <form action="./thanks.php" method="post">
-                        <input type="hidden" name="user_id" value="<?php echo htmlentities($user_id); ?>">
-                            <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">                            
+                           <input type="hidden" name="user_id" value="<?php echo htmlentities($user_id); ?>">
+                            <input type="hidden" name="user_email" value="<?php echo htmlentities($email); ?>">  
+                            <input type="hidden" name="user_name" value="<?php echo htmlentities($fullname); ?>">       
+                            <input type="hidden" name="combined_address" value="<?php echo htmlentities($combined_address); ?>">                            
                             <input type="hidden" name="cart_data" value="<?php echo htmlentities(serialize($cart_data)); ?>">
                             <input type="hidden" name="invoiceNumber" value="<?php echo htmlentities($invoiceNumber); ?>">
+                            
                             
 
 
@@ -290,7 +293,12 @@
                         </form>
 
 
-
+<?php  }else {
+    $msg = '<div class="alert alert-info" role="alert">
+    cart is empty
+  </div>';
+    print_r($msg);
+}  ?>
 
 
                     </div>

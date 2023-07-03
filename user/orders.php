@@ -161,7 +161,7 @@
                                                 <div>
                                                     <?php           if ($total > 0) {  ?>
                                                   <div class="font-size-lg text-primary pt-2">
-                                                        $<?php echo $total+20; ?>
+                                                       ₹<?php echo $total+20; ?>
                                                     </div>
                                                     <?php } ?>
                                                     <p>
