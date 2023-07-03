@@ -125,32 +125,19 @@
             $sql = "SELECT * FROM category";
             $fetchcatresult = mysqli_query($conn, $sql);
 
-            if (isset($_POST['delete'])) {
-                $categoryId = $_POST['categoryId'];
-                $imgPath = $_POST['imgPath'];
+            // Assuming you have a database connection established
 
-                // Delete category from the database
-                $deleteSql = "DELETE FROM category WHERE id = ?";
-                $deleteStmt = mysqli_prepare($conn, $deleteSql);
-                mysqli_stmt_bind_param($deleteStmt, "i", $categoryId);
-                if (mysqli_stmt_execute($deleteStmt)) {
-                    // Delete the uploaded image from the file system
-                    if (!empty($imgPath) && file_exists($imgPath)) {
-                        unlink($imgPath);
-                    }
-                    // echo "Category deleted successfully";
-                } else {
-                    echo "Error deleting category: " . mysqli_error($conn);
-                }
-            }
+
+
+
+   
 
             ?>
             <div class="center-div">
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <input type="name" class="form-control" name="catname" id="category" aria-describedby="category"
-                            placeholder="Enter  category">
+                        <input type="name" class="form-control" name="catname" id="category" aria-describedby="category" placeholder="Enter  category">
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Default file input example</label>
@@ -163,22 +150,33 @@
             <div class="container">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
                     <?php
-                    while ($row = mysqli_fetch_assoc($fetchcatresult)): ?>
+                    while ($row = mysqli_fetch_assoc($fetchcatresult)) : ?>
 
                         <div class="col container1">
                             <div class="card radius-15 bg-color-custom">
                                 <div class="card-body text-center">
                                     <div class="p-4 radius-15">
-                                        <img src="<?php echo $row['imgpath']; ?>" width="110" height="110"
-                                            class="rounded-circle shadow p-1 bg-white" alt="">
+                                        <img src="<?php echo $row['imgpath']; ?>" width="110" height="110" class="rounded-circle shadow p-1 bg-white" alt="">
                                         <h5 class="mb-0 mt-5 text-white">
                                             <?php echo $row['catname']; ?>
                                         </h5>
                                         <div class="d-grid">
-                                            <form method="post" action="">
+                                            <form method="post" action="./categorydatachanges/updatecat.php">
                                                 <input type="hidden" name="categoryId" value="<?php echo $row['id']; ?>">
                                                 <input type="hidden" name="imgPath" value="<?php echo $row['imgpath']; ?>">
-                                                <button type="submit" name="delete" class="btn btn-white-custom radius-15">Delete Me</button>
+                                                <!-- Toggle switch -->
+                                                <div class="form-check form-switch mt-3">
+                                                    <input class="form-check-input" type="checkbox" id="toggleSwitch" name="toggleSwitch" <?php echo ($row['cat_of_month'] == 1) ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="toggleSwitch">
+                                                        Toggle Me
+                                                    </label>
+                                                </div>
+                                                <button type="submit" name="updateCategory" class="btn btn-white-custom radius-15 update-button">Update to Category of the Month</button>
+                                            </form>
+                                            <form method="post" action="./categorydatachanges/deletecat.php">
+                                                <input type="hidden" name="categoryId" value="<?php echo $row['id']; ?>">
+                                                <input type="hidden" name="imgPath" value="<?php echo $row['imgpath']; ?>">
+                                                <button type="submit" name="delete" class="btn btn-white-custom radius-15">Delete Category</button>
                                             </form>
                                         </div>
                                     </div>
