@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['email'] = $email;
                         $_SESSION['fullname'] = $name;
 
-                        header("Location: ../admin");
+                        header("Location: ../admin/index.php");
                         exit();
                     }
                     if ($roll == 'user') {

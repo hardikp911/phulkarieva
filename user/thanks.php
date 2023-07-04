@@ -14,16 +14,6 @@ use PHPMailer\PHPMailer\Exception;
 // echo "<pre>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the email address entered by the user
-    // $email = $_POST['email'];
-    // $cart_data = unserialize($_POST['cart_data']);
-
-    // $user_id = $_POST['user_id'];
-    // $user_email = $_POST['user_email'];
-    // $invoiceNumber = $_POST['invoiceNumber'];
-    // $fullname = $_POST['user_name'];
-    // $combined_address = $_POST['combined_address'];
-
 
     // Perform server-side validation and sanitization for each field
     $user_id = isset($_POST['user_id']) ? htmlentities($_POST['user_id']) : '';
@@ -175,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                <tr>
                  <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
                    <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777; padding: 0 30px;">
-                   Thank you for placing your order with us! We are thrilled to confirm your purchase and appreciate your business. Below, you will find the details of your order:
+                   We are thrilled to confirm your purchase and appreciate your business. Below, you will find the details of your order:
                    </p>
                  </td>
                </tr>
@@ -318,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (mysqli_query($conn, $deleteCartQuery)) {
 
                 $mail->send();
-                echo "done";
+                // echo "done";
             } else {
                 echo "Error deleting cart data: " . mysqli_error($conn);
             }
@@ -357,80 +347,166 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Header -->
     <?php
     include('./navbar.php');
+
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      // Perform server-side validation and sanitization for each field
+      $user_id = isset($_POST['user_id']) ? htmlentities($_POST['user_id']) : '';
+      $user_email = isset($_POST['user_email']) ? htmlentities($_POST['user_email']) : '';
+      $invoiceNumber = isset($_POST['invoiceNumber']) ? htmlentities($_POST['invoiceNumber']) : '';
+      $fullname = isset($_POST['user_name']) ? htmlentities($_POST['user_name']) : '';
+      $combined_address = isset($_POST['combined_address']) ? htmlentities($_POST['combined_address']) : '';
+  
+      // Deserialize and validate the cart data
+      $cart_data = isset($_POST['cart_data']) ? unserialize($_POST['cart_data']) : array();
+    
+    
+    
+ 
+      $cart_count = count($cart_data);
+
+      $total = 0;
+      foreach ($cart_data as $item) {
+
+
+          if ($item['delivered'] === 'Not Delivered') {
+              $quantity = $item['product_Quantity'];
+              $rate = $item['product_rate'];
+              $subtotal = $quantity * $rate;
+              $total += $subtotal;
+          }
+      }
+
+      $sub_total = number_format($total, 2);
+      $total += 20;
+
+      $cart_data = serialize($cart_data);
+      $date = date("M. d, Y");
+      // echo $date;
+      $date_next = date("M. d, Y", strtotime("+5 days"));
+      $date_next_add = date("M. d, Y", strtotime("+8 days"));
+
+      
+      
+      
+      
+    
+    }
     ?>
-    <!-- Close Header -->
+<body style="background-color:#e2e1e0;font-family: Open Sans, sans-serif;font-size:100%;font-weight:400;line-height:1.4;color:#000;">
+  <table style="max-width:670px;margin:50px auto 10px;background-color:#fff;padding:50px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);-moz-box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);box-shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24); border-top: solid 10px green;">
+    <thead>
+      <tr>
+        <!-- <th style="text-align:left;"><img style="max-width: 150px;" src="" alt="Phulkari eva"></th> -->
+        <th style="text-align:left;">Phulkarieva</th>
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <th style="text-align:right;font-weight:400;"><?php echo $date;  ?></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="height:35px;"></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
+          <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Order status</span><b style="color:green;font-weight:normal;margin:0">Success</b></p>
+          <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Payment status</span><b style="color:red;font-weight:normal;margin:0">Not done</b></p>
+          <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Invoice ID</span><?php echo $invoiceNumber;  ?></p>
+          <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span> Rs. <?php echo $total;  ?>.00</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="height:35px;"></td>
+      </tr>
+      <tr>
+        <td style="width:50%;padding:20px;vertical-align:top">
+          <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px">Name</span> <?php echo $fullname;  ?></p>
+          <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Email</span> <?php echo $user_email;  ?></p>
+          <!-- <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Phone</span> +91-1234567890</p> -->
+          <!-- <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">ID No.</span> 2556-1259-9842</p> -->
+        </td>
+        <td style="width:50%;padding:20px;vertical-align:top">
+          <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Address</span><?php echo $combined_address;  ?></p>
+          <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Number of Products</span><?php echo $cart_count;  ?></p>
+          <p style="margin:0 0 10px 0;padding:0;font-size:14px;"><span style="display:block;font-weight:bold;font-size:13px;">Duration of Delivery</span> <?php echo $date_next;  ?> to <?php echo $date_next_add;  ?> </p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="font-size:20px;padding:30px 15px 0 15px;">Items</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding:15px;">
+        
+                                    <?php
+         $sql = "SELECT * FROM orders WHERE user_id = '$user_id' AND user_email = '$user_email'AND invoice_id = '$invoiceNumber'";
+         $result = mysqli_query($conn, $sql);
+
+         if (mysqli_num_rows($result) > 0) {
 
 
-    <!-- Start Content Page -->
-    <div class="container-fluid bg-light py-5">
-        <div class="col-md-6 m-auto text-center">
-            <h1 class="h1">Contact Us</h1>
-            <p>
-                Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                Lorem ipsum dolor sit amet.
-            </p>
-        </div>
-    </div>
+             while ($row = mysqli_fetch_assoc($result)) {
 
-    <!-- Start Map -->
-    <div class="map-container">
-        <div class="map-wrapper">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.914598046272!2d73.31155001497917!3d28.019438082597473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb3ac7ae090d72971!2sPradeep%20Balaji%20Enterprises!5e0!3m2!1sen!2sin!4v1645428683381!5m2!1sen!2sin" width="100" height="100" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-    </div>
+                 $cart_data = unserialize($row['cart_data']);
+
+                                    // Iterate through each item in the cart_data array
+                                    foreach ($cart_data as $key => $item) {
+
+                                    
+                                      $name = $item['product_name'];
+                                        $img = $item['product_image_path'];
+                                        $rate = number_format($item['product_rate'], 2);
+                                        $size = $item['product_size'];
 
 
-
-    <!-- End Map -->
-
-    <!-- Start Contact -->
-    <div class="container py-5">
-        <div class="row py-5">
-            <form class="col-md-9 m-auto" method="post" role="form">
-                <div class="row">
-                    <div class="form-group col-md-6 mb-3">
-                        <label for="inputname">Name</label>
-                        <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Name">
+                                    
+                                    ?>
+                             <div style="display: flex; align-items: center;">
+                      <p style="font-size: 14px; margin: 0; padding: 10px; border: solid 1px #ddd; font-weight: bold; flex: 1;">
+                        <span style="display: block; font-size: 13px; font-weight: normal;">
+                          <?php echo $name; ?>
+                        </span> 
+                        Rs. <?php echo $rate; ?><br>
+                        Size = <?php echo $size; ?>
+                      </p>
+                      <div style="position: relative;">
+                        <img src="<?php echo $img; ?>" alt="Image" style="width: 50px; height: 50px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                      </div>
                     </div>
-                    <div class="form-group col-md-6 mb-3">
-                        <label for="inputemail">Email</label>
-                        <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Email">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="inputsubject">Subject</label>
-                    <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="Subject">
-                </div>
-                <div class="mb-3">
-                    <label for="inputmessage">Message</label>
-                    <textarea class="form-control mt-1" id="message" name="message" placeholder="Message" rows="8"></textarea>
-                </div>
-                <div class="row">
-                    <div class="col text-end mt-2">
-                        <button type="submit" class="btn btn-success btn-lg px-3">Let’s Talk</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- End Contact -->
+
+
+        
+                                <?php
+                                    }
+                                  }
+                                }
+  
+                                    ?>
+  
+  
+          
+          
+          
+          <!-- <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">Pickup & Drop</span> Rs. 2000 <b style="font-size:12px;font-weight:300;"> /person/day</b></p>
+          <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">Local site seeing with guide</span> Rs. 800 <b style="font-size:12px;font-weight:300;"> /person/day</b></p>
+          <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">Tea tourism with guide</span> Rs. 500 <b style="font-size:12px;font-weight:300;"> /person/day</b></p>
+          <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">River side camping with guide</span> Rs. 1500 <b style="font-size:12px;font-weight:300;"> /person/day</b></p>
+          <p style="font-size:14px;margin:0;padding:10px;border:solid 1px #ddd;font-weight:bold;"><span style="display:block;font-size:13px;font-weight:normal;">Trackking and hiking with guide</span> Rs. 1000 <b style="font-size:12px;font-weight:300;"> /person/day</b></p> -->
+        </td>
+      </tr>
+    </tbody>
+    <tfooter>
+      <tr>
+      <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
+          <strong style="display:block;margin:0 0 10px 0;">Regards</strong> Phulkarieva <br> Sector 2, Jai Narayan Vyas Colony, Pin/Zip - 334003, Bikaner, Rajasthan, India<br><br>
+          <b>Phone:</b> 9530467006<br>
+          <b>Email:</b> info.phulkarieva@gmail.com
+        </td>
+      </tr>
+    </tfooter>
+  </table>
+</body>
 
     <?php
     include('./footer.php');
