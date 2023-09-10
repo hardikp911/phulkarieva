@@ -101,10 +101,16 @@
           </div>
         </div>
 
-
+        <div class="search-bar">
+          <form class="form-inline" method="get">
+            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search for a product..." aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
 
 
       </div>
+
       <section class="body">
         <div class="container">
           <div class="row">
@@ -112,39 +118,41 @@
               <div class>
                 <div class="table-responsive">
                   <?php
-
                   include('../database/connection.php');
-                  $sql = "SELECT * FROM products";
+
+                  // Set the number of products to display per page
+                  $productsPerPage = 2;
+
+                  // Get the current page from the query parameter (default to page 1)
+                  $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+
+                  // Calculate the offset for the SQL query
+                  $offset = ($page - 1) * $productsPerPage;
+
+                  // Check if a search query is provided
+                  if (isset($_GET['search'])) {
+                    $searchTerm = mysqli_real_escape_string($conn, $_GET['search']);
+
+                    // Modify your SQL query to search for products with matching names
+                    $sql = "SELECT * FROM products WHERE product_name LIKE '%$searchTerm%' LIMIT $offset, $productsPerPage";
+                    $totalProductsQuery = "SELECT COUNT(*) AS total FROM products WHERE product_name LIKE '%$searchTerm%'";
+                  } else {
+                    // If no search query is provided, fetch all products with pagination
+                    $sql = "SELECT * FROM products LIMIT $offset, $productsPerPage";
+                    $totalProductsQuery = "SELECT COUNT(*) AS total FROM products";
+                  }
+
                   $fetchproductresult = mysqli_query($conn, $sql);
 
-                  // if (isset($_POST['Delete'])) {
-                  //   $categoryId = $_POST['product_id'];
-                  //   $imgPath = $_POST['product_image_Path'];
+                  // Fetch the total number of products for pagination
+                  $totalProductsResult = mysqli_query($conn, $totalProductsQuery);
+                  $totalProducts = mysqli_fetch_assoc($totalProductsResult)['total'];
 
-                  //   // Delete category from the database
-                  //   $deleteSql = "DELETE FROM products WHERE product_id = ?";
-                  //   $deleteStmt = mysqli_prepare($conn, $deleteSql);
-                  //   mysqli_stmt_bind_param($deleteStmt, "i", $categoryId);
-
-                  //   if (mysqli_stmt_execute($deleteStmt)) {
-                  //     // Delete the uploaded image from the file system
-                  //     if (file_exists($imgPath)) {
-                  //       unlink($imgPath);
-                  //     }
-                  //     // echo "Category deleted successfully";
-                  //     // Refresh the page after successful deletion
-                  //     // Redirect to the same page without the POST data
-                  //   } else {
-                  //     echo "Error deleting category.";
-                  //   }
-                  // }
-
-
+                  // Calculate the total number of pages
+                  $totalPages = ceil($totalProducts / $productsPerPage);
                   ?>
 
                   <?php
-                  // Assuming you have a database connection established
-
                   if (mysqli_num_rows($fetchproductresult) == 0) {
                     echo "<h1>No products to display</h1>";
                   } else {
@@ -206,7 +214,7 @@
                                     <form action="delete_product.php" method="post" class="delete-product-form">
                                       <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
                                       <input type="hidden" name="product_image_path" value="<?= $row['product_image_path'] ?>">
-                                      <button type="button" class="btn btn-link text-danger delete-product-button" data-bs-toggle="tooltip" data-bs-placement="top" name="Delete">
+                                      <button type="submit" class="btn btn-link text-danger delete-product-button" data-bs-toggle="tooltip" data-bs-placement="top" name="Delete">
                                         <i class="bx bx-trash-alt font-size-18"></i>
                                       </button>
                                     </form>
@@ -220,16 +228,36 @@
                         </tbody>
                       </table>
                     </div>
+                    <!-- Pagination links -->
+                    <!-- Pagination links -->
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-center">
+                        <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                          <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= isset($_GET['search']) ? $_GET['search'] : '' ?>" tabindex="-1">Previous</a>
+                        </li>
+                        <?php
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                          $activeClass = $i === $page ? 'active' : '';
+                        ?>
+                          <li class="page-item <?= $activeClass ?>">
+                            <a class="page-link" href="?page=<?= $i ?>&search=<?= isset($_GET['search']) ? $_GET['search'] : '' ?>"><?= $i ?></a>
+                          </li>
+                        <?php
+                        }
+                        ?>
+                        <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                          <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= isset($_GET['search']) ? $_GET['search'] : '' ?>">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
+
                   <?php
                   }
                   ?>
-
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
     </main>
@@ -246,33 +274,60 @@
 <?php include('./footer.php');  ?>
 
 <script>
-    // Assuming you're using jQuery for simplicity
-    $(document).ready(function () {
-        $(".delete-product-button").click(function () {
-            if (confirm('Are you sure you want to delete this product?')) {
-                var form = $(this).closest("form");
-                var formData = form.serialize();
+  $(document).ready(function() {
+    $(".delete-product-button").click(function(e) {
+      e.preventDefault(); // Prevent the default form submission behavior
 
-                $.ajax({
-                    url: form.attr("action"),
-                    type: "POST",
-                    data: formData,
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.success) {
-                            // Product deleted successfully, update the UI here
-                            form.closest("tr").remove();
-                        } else {
-                            alert("Deletion failed: " + response.error);
-                        }
-                    },
-                    error: function () {
-                        alert("An error occurred during deletion.");
-                    }
-                });
+      if (confirm('Are you sure you want to delete this product?')) {
+        var form = $(this).closest("form");
+        var formData = form.serialize();
+
+        $.ajax({
+          url: form.attr("action"),
+          type: "POST",
+          data: formData,
+          dataType: "json",
+          success: function(response) {
+            if (response.success) {
+              // Product deleted successfully, update the UI here
+              form.closest("tr").remove();
+            } else {
+              alert("Deletion failed: " + response.error);
             }
+          },
+          error: function() {
+            alert("An error occurred during deletion.");
+          }
         });
+      }
     });
+  });
+</script>
+
+<script>
+  // JavaScript to handle the AJAX request
+  document.addEventListener("DOMContentLoaded", function() {
+    const productSearchInput = document.getElementById("productSearch");
+    const searchButton = document.getElementById("searchButton");
+    const searchResults = document.getElementById("searchResults");
+
+    searchButton.addEventListener("click", function() {
+      const searchTerm = productSearchInput.value.trim();
+
+      if (searchTerm !== "") {
+        // Send an AJAX request to the server with the search query
+        // and update the 'searchResults' div with the new product listing
+        fetch(`product.php?search=${encodeURIComponent(searchTerm)}`)
+          .then((response) => response.text())
+          .then((data) => {
+            searchResults.innerHTML = data;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    });
+  });
 </script>
 </body>
 
