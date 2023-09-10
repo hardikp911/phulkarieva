@@ -10,7 +10,7 @@ if (isset($_POST['updateCategory'])) {
     $sql = "UPDATE category SET cat_of_month = $status WHERE id = $categoryId";
     if (mysqli_query($conn, $sql)) {
         // echo "updated category ";
-        header("Location: ../category.php");
+        header("Location: ../displayCategory.php");
 
     }else{
         echo "Error updating category: " . mysqli_error($conn);

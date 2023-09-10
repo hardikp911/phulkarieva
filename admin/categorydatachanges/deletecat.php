@@ -17,7 +17,7 @@ if (isset($_POST['delete'])) {
             unlink($imgPath);
         }
         // echo "Category deleted successfully";
-        header("Location: ../category.php");
+        header("Location: ../displayCategory.php");
 
     } else {
         echo "Error deleting category: " . mysqli_error($conn);

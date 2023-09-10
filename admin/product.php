@@ -117,110 +117,113 @@
                   $sql = "SELECT * FROM products";
                   $fetchproductresult = mysqli_query($conn, $sql);
 
-                  if (isset($_POST['Delete'])) {
-                    $categoryId = $_POST['product_id'];
-                    $imgPath = $_POST['product_image_Path'];
+                  // if (isset($_POST['Delete'])) {
+                  //   $categoryId = $_POST['product_id'];
+                  //   $imgPath = $_POST['product_image_Path'];
 
-                    // Delete category from the database
-                    $deleteSql = "DELETE FROM products WHERE product_id = ?";
-                    $deleteStmt = mysqli_prepare($conn, $deleteSql);
-                    mysqli_stmt_bind_param($deleteStmt, "i", $categoryId);
+                  //   // Delete category from the database
+                  //   $deleteSql = "DELETE FROM products WHERE product_id = ?";
+                  //   $deleteStmt = mysqli_prepare($conn, $deleteSql);
+                  //   mysqli_stmt_bind_param($deleteStmt, "i", $categoryId);
 
-                    if (mysqli_stmt_execute($deleteStmt)) {
-                      // Delete the uploaded image from the file system
-                      if (file_exists($imgPath)) {
-                        unlink($imgPath);
-                      }
-                      // echo "Category deleted successfully";
-                      // Refresh the page after successful deletion
-                        // Redirect to the same page without the POST data
-                    } else {
-                      echo "Error deleting category.";
-                    }
-                  }
+                  //   if (mysqli_stmt_execute($deleteStmt)) {
+                  //     // Delete the uploaded image from the file system
+                  //     if (file_exists($imgPath)) {
+                  //       unlink($imgPath);
+                  //     }
+                  //     // echo "Category deleted successfully";
+                  //     // Refresh the page after successful deletion
+                  //     // Redirect to the same page without the POST data
+                  //   } else {
+                  //     echo "Error deleting category.";
+                  //   }
+                  // }
 
 
                   ?>
 
-                  <table class="table project-list-table table-nowrap align-middle table-borderless">
-                    <?php
- if (mysqli_num_rows($fetchproductresult) == 0) {
-  echo "<h1>No products to display</h1>";
-} else {
+                  <?php
+                  // Assuming you have a database connection established
 
-?>
-                    <thead>
-                      <tr>
-
-                        <th scope="col">Name</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Product Size</th>
-                        <th scope="col">Product Rate</th>
-                        <th scope="col">Product color</th>
-                        <th scope="col">Product description</th>
-                        <th scope="col" style="width: 200px;">Action</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <?php
-                     
-
-
-                        while ($row = mysqli_fetch_assoc($fetchproductresult)) {
-
-                          $content = $row['product_description']; // Assuming $row['product_description'] contains the content you want to divide
-
-                          $words = explode(' ', $content); // Split the content into an array of words
-                          $lines = array_chunk($words, 7);
-                      ?>
+                  if (mysqli_num_rows($fetchproductresult) == 0) {
+                    echo "<h1>No products to display</h1>";
+                  } else {
+                  ?>
+                    <div class="table-responsive">
+                      <table class="table project-list-table table-nowrap align-middle table-borderless">
+                        <thead>
                           <tr>
-                            <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_name']; ?></span></td>
-                            <td><img src="<?php echo $row['product_image_path']; ?>" alt class="avatar-sm rounded-circle me-2" /></td>
-                            <td><span class="badge badge-soft-success mb-0"><?php echo $row['product_size']; ?></span></td>
-                            <td style="width: 100px;"><?php echo $row['product_rate']; ?></td>
-                            <td style="width: 100px;"><?php echo $row['product_color']; ?></td>
-                            <td>
-                              <p><?php foreach ($lines as $line) {
-                                    echo implode(' ', $line) . "<br>"; // Output each line of words separated by a space and followed by a line break
-                                  } ?></p>
-                            </td>
-
-                            <td>
-                              <ul class="list-inline mb-0">
-                                <!-- <li class="list-inline-item">
-                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" class="px-2 text-primary"><i class="bx bx-pencil font-size-18"></i></a>
-                              </li> -->
-                                <form action="edit_product.php" method="post">
-                                  <input type="hidden" name="product_id" value="PRODUCT_ID_HERE">
-                                  <button type="submit" class="btn btn-link text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                    <i class="bx bx-pencil font-size-18"></i>
-                                  </button>
-                                </form>
-
-                                <!-- <li class="list-inline-item">
-                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
-                              </li> -->
-                                <form action="" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                  <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
-                                  <input type="hidden" name="product_image_Path" value="<?php echo $row['product_image_path']; ?>">
-
-                                  <button type="submit" class="btn btn-link text-danger" data-bs-toggle="tooltip" data-bs-placement="top" name="Delete">
-                                    <i class="bx bx-trash-alt font-size-18"></i>
-                                  </button>
-                                </form>
-
-                              </ul>
-                            </td>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Product Size</th>
+                            <th scope="col">Product Rate</th>
+                            <th scope="col">Product Color</th>
+                            <th scope="col">Product Description</th>
+                            <th scope="col" style="width: 200px;">Action</th>
                           </tr>
-                      <?php }
-                      } ?>
+                        </thead>
+                        <tbody>
+                          <?php
+                          while ($row = mysqli_fetch_assoc($fetchproductresult)) {
+                            $content = $row['product_description'];
+                            $words = explode(' ', $content); // Split the content into an array of words
+                            $lines = array_chunk($words, 7);
+                            $image = $row['product_image_path'];
+                            if ($row['upload_through'] == 'json') {
+                              // Extract the file ID using regular expressions
+                              $pattern = '/\/d\/(.*?)\//';
+                              preg_match($pattern, $image, $matches);
+                              if (isset($matches[1])) {
+                                $fileId = $matches[1];
+                                $image = 'https://drive.google.com/uc?id=' . $fileId;
+                              }
+                            }
+                          ?>
+                            <tr>
+                              <td><span class="badge badge-soft-success mb-0"><?= $row['product_name'] ?></span></td>
+                              <td><img src="<?= $image ?>" alt="<?= $row['product_name'] ?>" class="avatar-sm rounded-circle me-2"></td>
+                              <td><span class="badge badge-soft-success mb-0"><?= $row['product_size'] ?></span></td>
+                              <td style="width: 100px;"><?= $row['product_rate'] ?></td>
+                              <td style="width: 100px;"><?= $row['product_color'] ?></td>
+                              <td>
+                                <?php
+                                foreach ($lines as $line) {
+                                  echo implode(' ', $line) . "<br>"; // Output each line of words separated by a space and followed by a line break
+                                }
+                                ?>
+                              </td>
+                              <td>
+                                <ul class="list-inline mb-0">
+                                  <li class="list-inline-item">
+                                    <form action="edit_product.php" method="post">
+                                      <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+                                      <button type="submit" class="btn btn-link text-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="bx bx-pencil font-size-18"></i>
+                                      </button>
+                                    </form>
+                                  </li>
+                                  <li class="list-inline-item">
+                                    <form action="delete_product.php" method="post" class="delete-product-form">
+                                      <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+                                      <input type="hidden" name="product_image_path" value="<?= $row['product_image_path'] ?>">
+                                      <button type="button" class="btn btn-link text-danger delete-product-button" data-bs-toggle="tooltip" data-bs-placement="top" name="Delete">
+                                        <i class="bx bx-trash-alt font-size-18"></i>
+                                      </button>
+                                    </form>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          <?php
+                          }
+                          ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  <?php
+                  }
+                  ?>
 
-
-
-
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </div>
@@ -235,9 +238,42 @@
 </body>
 
 </html>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+
+
 <!-- partial -->
 <?php include('./footer.php');  ?>
 
+<script>
+    // Assuming you're using jQuery for simplicity
+    $(document).ready(function () {
+        $(".delete-product-button").click(function () {
+            if (confirm('Are you sure you want to delete this product?')) {
+                var form = $(this).closest("form");
+                var formData = form.serialize();
+
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            // Product deleted successfully, update the UI here
+                            form.closest("tr").remove();
+                        } else {
+                            alert("Deletion failed: " + response.error);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred during deletion.");
+                    }
+                });
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -47,3 +47,26 @@
     width: 100%; /* Ensure the image fills the entire width */
   }
 }
+/* Default styles for all devices */
+.category_img {
+  width: 200px; /* Replace with your desired width */
+  height: 200px; /* Replace with your desired height */
+}
+
+
+
+/* Media query for phones */
+@media screen and (max-width: 767px) {
+  .category_img {
+    width: 100px; /* Replace with your desired width for phones */
+    height: 100px; /* Replace with your desired height for phones */
+  }
+}
+
+/* Media query for tablets */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .category_img {
+    width: 120px; /* Replace with your desired width for tablets */
+    height: 120px; /* Replace with your desired height for tablets */
+  }
+}

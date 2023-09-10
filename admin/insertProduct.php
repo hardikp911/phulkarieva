@@ -58,7 +58,7 @@ ini_set('display_errors', 1);
                             $productName = $_POST['productName'];
                             $brand = $_POST['productBrand'];
 
-                            $category = $_POST['category'];
+                            $category_name = $_POST['category_name'];
                             $sizeOption = $_POST['sizeOption'];
                             $size = ($sizeOption == 'digit') ? $_POST['sizeDigit'] : $_POST['sizeRoman'];
                             $rate = $_POST['rate'];
@@ -102,14 +102,22 @@ ini_set('display_errors', 1);
                             }
 
                             // Insert data into the database
-                            $query = "INSERT INTO products (product_name, product_brand, category_id, size_option, product_size, product_rate, product_color, product_description, product_Specification, product_image_path) 
-              VALUES ('$productName', '$brand' , '$category', '$sizeOption', '$size', '$rate', '$color', '$description', '$Specification', '$image')";
+                            $query = "INSERT INTO products (product_name, product_brand, category_name, size_option, product_size, product_rate, product_color, product_description, product_Specification, product_image_path) 
+              VALUES ('$productName', '$brand' , '$category_name', '$sizeOption', '$size', '$rate', '$color', '$description', '$Specification', '$image')";
                             if (mysqli_query($conn, $query)) {
                                 echo "Data inserted successfully.";
                             } else {
                                 echo "Error: " . mysqli_error($conn);
                             }
                         }
+                        $sql = "SELECT * FROM category";
+                        $fetchcatresult = mysqli_query($conn, $sql);
+
+                        if (mysqli_num_rows($fetchcatresult) == 0) {
+
+                            echo "Create category First";
+                       
+                        } else {
                         ?>
 
                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
@@ -135,14 +143,14 @@ ini_set('display_errors', 1);
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Select Category:</label>
-                                                        <select class="form-control" name="category">
+                                                        <select class="form-control" name="category_name">
                                                             <?php
                                                             $query = "SELECT * FROM category";
                                                             $result = mysqli_query($conn, $query);
                                                             while ($row = mysqli_fetch_assoc($result)) {
                                                                 $categoryId = $row['id'];
                                                                 $categoryName = $row['catname'];
-                                                                echo "<option value='$categoryId'>$categoryName</option>";
+                                                                echo "<option value='$categoryName'>$categoryName</option>";
                                                             }
                                                             ?>
                                                         </select>
@@ -231,7 +239,7 @@ ini_set('display_errors', 1);
                             </div>
 
                         </form>
-
+<?php }?>
                     </div>
                 </div>
             </section>

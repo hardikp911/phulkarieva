@@ -65,9 +65,20 @@
                         $product_specification = $row['product_Specification'];
 
                         $productImage = $row['product_image_path'];
-                        $productImage = ltrim($productImage, '.');
-                        $prefix = "../admin";
-                        $path = $prefix . $productImage;
+                        if ($row['upload_through'] == 'json') {
+                            // Extract the file ID using regular expressions
+                            $pattern = '/\/d\/(.*?)\//';
+                            preg_match($pattern, $productImage, $matches);
+                            if (isset($matches[1])) {
+                              $fileId = $matches[1];
+                              $path = 'https://drive.google.com/uc?id=' . $fileId;
+
+                            }
+                          }else{
+                              $productImage = ltrim($productImage, '.');
+                              $prefix = "../admin";
+                              $path = $prefix . $productImage;
+                            }
 
 
                         $size_array_color = explode(",", $color); // Split the string into an array based on commas

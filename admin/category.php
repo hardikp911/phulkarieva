@@ -1,30 +1,5 @@
 <?php include('./header.php');
 ?>
-<style>
-    /* category page custom css */
-    .container1 {
-        padding: 20px;
-    }
-
-    .radius-15 {
-        border-radius: 15px;
-    }
-
-    .btn-white-custom {
-        background-color: #fff;
-        border-color: #e7eaf3;
-    }
-
-    .d-grid {
-        padding: 20px;
-    }
-
-    .bg-color-custom {
-        background-color: #7eb1db !important;
-    }
-
-    /* end  */
-</style>
 
 <body>
     <?php include('./sidebar.php'); ?>
@@ -122,74 +97,47 @@
                 echo "Category added successfully";
             }
 
-            $sql = "SELECT * FROM category";
-            $fetchcatresult = mysqli_query($conn, $sql);
-
-            // Assuming you have a database connection established
-
-
-
-
-   
 
             ?>
+
+
             <div class="center-div">
+
+                <h2>Insert Data</h2>
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="category">Category</label>
-                        <input type="name" class="form-control" name="catname" id="category" aria-describedby="category" placeholder="Enter  category">
+                        <input type="text" required class="form-control" name="catname" id="category" aria-describedby="category" placeholder="Enter category">
                     </div>
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Default file input example</label>
-                        <input class="form-control" type="file" name="image" id="formFile">
+                        <label for="image">Image</label>
+                        <input class="form-control" type="file" required name="image" id="image">
                     </div>
-
-                    <button type="submit" value="Submit" name="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                 </form>
-            </div>
-            <div class="container">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-                    <?php
-                    while ($row = mysqli_fetch_assoc($fetchcatresult)) : ?>
+                <hr>
+                <p>
+                    You can insert one category at a time using the form above or insert multiple categories using JSON data.
+                    <a href="./sampleJsonFormat/category.json" download>Download Sample JSON Data</a>
+                </p>
+                <hr>
 
-                        <div class="col container1">
-                            <div class="card radius-15 bg-color-custom">
-                                <div class="card-body text-center">
-                                    <div class="p-4 radius-15">
-                                        <img src="<?php echo $row['imgpath']; ?>" width="110" height="110" class="rounded-circle shadow p-1 bg-white" alt="">
-                                        <h5 class="mb-0 mt-5 text-white">
-                                            <?php echo $row['catname']; ?>
-                                        </h5>
-                                        <div class="d-grid">
-                                            <form method="post" action="./categorydatachanges/updatecat.php">
-                                                <input type="hidden" name="categoryId" value="<?php echo $row['id']; ?>">
-                                                <input type="hidden" name="imgPath" value="<?php echo $row['imgpath']; ?>">
-                                                <!-- Toggle switch -->
-                                                <div class="form-check form-switch mt-3">
-                                                    <input class="form-check-input" type="checkbox" id="toggleSwitch" name="toggleSwitch" <?php echo ($row['cat_of_month'] == 1) ? 'checked' : ''; ?>>
-                                                    <label class="form-check-label" for="toggleSwitch">
-                                                        Toggle Me
-                                                    </label>
-                                                </div>
-                                                <button type="submit" name="updateCategory" class="btn btn-white-custom radius-15 update-button">Update to Category of the Month</button>
-                                            </form>
-                                            <form method="post" action="./categorydatachanges/deletecat.php">
-                                                <input type="hidden" name="categoryId" value="<?php echo $row['id']; ?>">
-                                                <input type="hidden" name="imgPath" value="<?php echo $row['imgpath']; ?>">
-                                                <button type="submit" name="delete" class="btn btn-white-custom radius-15">Delete Category</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <h2>Upload JSON Data</h2>
+                <div id="notice" class="text-danger"></div> <!-- Add a div for the notice -->
+                <form id="jsonUploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="jsonFile" class="form-label">Choose a JSON file</label>
+                        <input class="form-control" type="file" name="jsonFile" accept=".json" id="jsonFile" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="uploadJson" id="uploadJson">
+                        <label class="form-check-label" for="uploadJson">Upload as JSON</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload JSON</button>
+                </form>
 
-
-                    <?php endwhile; ?>
-                </div>
 
             </div>
-
 
             <!-- </section> -->
         </main>
@@ -198,6 +146,38 @@
 </body>
 
 </html>
+<script>
+    document.getElementById('jsonUploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+        var isUploadJson = document.getElementById('uploadJson').checked;
+
+        // Add the 'uploadJson' parameter to the form data
+        formData.append('uploadJson', isUploadJson ? '1' : '0');
+
+        $.ajax({
+            type: 'POST',
+            url: 'category_json_uploader.php', // Replace with the actual URL of your PHP script
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Update the notice content
+                $('#notice').html("Insertion done"); // Assuming the response is the notice message
+
+                // Optionally, clear the input field after success
+                $('#jsonFile').val('');
+            },
+            error: function() {
+                // Handle any errors that occur during the AJAX request
+                alert('An error occurred during the AJAX request.');
+            }
+        });
+    });
+</script>
+
+
 <!-- partial -->
 <?php include('./footer.php'); ?>
 

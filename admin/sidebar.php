@@ -16,9 +16,28 @@
         <div class="sidebar-user">
             <!-- <img src="https://randomuser.me/api/portraits/men/47.jpg" alt=""> -->
             <?php
+                        include('../database/connection.php');
+
             if (isset($_SESSION['fullname']) && isset($_SESSION['email'])) {
                 $fullname = $_SESSION['fullname'];
                 $email = $_SESSION['email'];
+
+                    $query = "SELECT roll FROM login WHERE fullname = '$fullname' AND email = '$email'";
+                    $result = mysqli_query($conn, $query);
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $row = mysqli_fetch_assoc($result);
+                        $roll = $row['roll'];
+
+                        if ($roll != 'admin') {
+                            header("Location: ../user/index.php");
+
+                      } 
+                       
+                    } else {
+                        header("Location: ../user/index.php");
+                    }
+
+                    
             ?>
                 <div>
                     <h3><?php echo "Welcome, $fullname";  ?></h3>
@@ -33,10 +52,16 @@
             <div class="menu-head">
                 <span class="category">Dashboard</span>
                 <ul>
-                    <li><a href="./category.php"><span class="las la-balance-scale"></span>category</a></li>
+                    <li><a href="./category.php"><span class="las la-balance-scale"></span>insert category</a></li>
+                    <li><a href="./displayCategory.php"><span class="las la-balance-scale"></span>All category</a></li>
+
                     <li><a href="./insertProduct.php"><span class="lab la-jira"></span>Insert Product</a></li>
+                    <li><a href="./upload_Product_Json.php"><span class="lab la-jira"></span>upload Product json</a></li>
+
                     <li><a href="./product.php"><span class="lab la-product-hunt"></span>products</a></li>
                     <li><a href="./orders.php"><span class="lab la-product-hunt"></span>orders</a></li>
+                    <li><a href="./reset.php"><span class="lab la-product-hunt"></span>Reset website</a></li>
+
 
                     <!-- <li><a href="#"><span class="las la-balance-scale"></span>Calender</a></li>
                     <li><a href="#"><span class="las la-users"></span>Contacts</a></li>

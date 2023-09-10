@@ -86,23 +86,31 @@
                         while ($row = mysqli_fetch_assoc($fetchproductresult)) {
                             $id = $row['product_id'];
                             $productImage = $row['product_image_path'];
-                            $productImage = ltrim($productImage, '.');
-                            $prefix = "../admin";
-                            $path = $prefix . $productImage;
+
+
+                            // echo $productImage;
+
+                            if ($row['upload_through'] == 'json') {
+                              // Extract the file ID using regular expressions
+                              $pattern = '/\/d\/(.*?)\//';
+                              preg_match($pattern, $productImage, $matches);
+                              if (isset($matches[1])) {
+                                $fileId = $matches[1];
+                                $path = 'https://drive.google.com/uc?id=' . $fileId;
+
+                              }
+                            }else{
+                                $productImage = ltrim($productImage, '.');
+                                $prefix = "../admin";
+                                $path = $prefix . $productImage;
+                              }
+                            
 
                             $size = $row['product_size'];
                             $size_array = explode(",", $size); // Split the string into an array based on commas
                             $first_five_values = array_slice($size_array, 0, 5); // Extract the first 5 values
                             $first_five_values_string = implode(', ', $first_five_values); // Convert the array to a string
-                            
-                           
-
-
-
-
                     ?>
-
-
                             <div class="col-md-4 pad-class">
                             <div class="card mb-4 product-wap rounded-0 product-card">
                                     <div class="card rounded-0">

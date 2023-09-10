@@ -114,6 +114,17 @@
     <!-- End Banner Hero -->
 
 
+
+
+    <?php  
+            include('../database/connection.php');
+
+            
+            $sql = "SELECT * FROM category where cat_of_month = 1";
+            $fetchproductresult = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($fetchproductresult) != 0) {
+
+?>
     <!-- Start Categories of The Month -->
     <section class="container py-5">
         <div class="row text-center pt-3">
@@ -127,16 +138,9 @@
         </div>
         <div class="row">
 
-            <?php  
-            include('../database/connection.php');
 
-            
-            $sql = "SELECT * FROM category where cat_of_month = 1";
-            $fetchproductresult = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($fetchproductresult) == 0) {
-                echo "<h1>No products to display</h1>";
-            } else {
 
+                <?php
 
                 while ($row = mysqli_fetch_assoc($fetchproductresult)) {
                     $catname = $row['catname'];
@@ -148,17 +152,33 @@
 
 
                     $productImage = $row['imgpath'];
+
                     $productImage = ltrim($productImage, '.');
+
                     $prefix = "../admin";
                     $path = $prefix . $productImage;?>
 
-            <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="<?php echo $path; ?>" class="rounded-circle img-fluid border"></a>
-                <h5 class="text-center mt-3 mb-3"><?php echo $catname; ?></h5>
-                <p class="text-center"><a class="btn btn-success">Go shop</a></p>
-            </div>
+                    <div class="col-12 col-md-4 p-5 mt-3">
+                    <div class="text-center">
+                        <a href="#">
+                        <img src="<?php echo $path ?>" alt="Image Description" class="rounded-circle category_img img-fluid border">
 
-            <?php   }  } ?>
+                        <!-- <img src="<?php echo $path; ?>" class="rounded-circle category_img img-fluid border"> -->
+                        </a>
+                        <h5 class="mt-3 mb-3"><?php echo $catname; ?></h5>
+                        <p class="text-center">
+                        <a class="btn btn-success">Go shop</a>
+                        </p>
+                    </div>
+                    </div>
+
+
+            <?php   }
+        
+        
+        ?>
+
+       
 
 
             <!-- <div class="col-12 col-md-4 p-5 mt-3">
@@ -173,6 +193,9 @@
             </div> -->
         </div>
     </section>
+
+    <?php
+        } ?>
     <!-- End Categories of The Month -->
 
 

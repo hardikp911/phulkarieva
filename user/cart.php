@@ -84,12 +84,12 @@
                             }
                         }
                         // Fetch cart data for the user from cartdata table
-                        $cartQuery = "SELECT cartdata.cart_id,cartdata.product_size, cartdata.product_color, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_rate, products.product_id
+                        $cartQuery = "SELECT cartdata.cart_id,cartdata.product_size, cartdata.product_color, cartdata.product_Quantity, products.product_image_path, products.product_name, products.product_rate, products.upload_through, products.product_id
               FROM cartdata
               JOIN products ON cartdata.product_id = products.product_id
               WHERE cartdata.user_id = '$user_id'";
                         $total = 0;
-                      
+
 
                         $cartResult = mysqli_query($conn, $cartQuery);
                         while ($cartRow = mysqli_fetch_assoc($cartResult)) {
@@ -102,9 +102,21 @@
                             $productName = $cartRow['product_name'];
                             $productcolor = $cartRow['product_color'];
                             $productrate = $cartRow['product_rate'];
-                            $productImage = ltrim($productImage, '.');
-                            $prefix = "../admin";
-                            $productImage = $prefix . $productImage;
+
+                            if ($cartRow['upload_through'] == 'json') {
+                                // Extract the file ID using regular expressions
+                                $pattern = '/\/d\/(.*?)\//';
+                                preg_match($pattern, $productImage, $matches);
+                                if (isset($matches[1])) {
+                                    $fileId = $matches[1];
+                                    $productImage = 'https://drive.google.com/uc?id=' . $fileId;
+                                }
+                            } else {
+                                $productImage = ltrim($productImage, '.');
+                                $prefix = "../admin";
+                                $productImage = $prefix . $productImage;
+                            }
+
 
                             // Calculate the subtotal for each item
                             $subtotal = $productrate * $productQuantity;
@@ -130,12 +142,12 @@
                                     </div>
                                 </div>
                                 <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem">
-                                   
+
 
                                     <form action="./cart/updatecart.php" method="POST">
-                                    <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">                          
-                                      <!--  -->
-                                    
+                                        <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">
+                                        <!--  -->
+
                                         <div class="form-group mb-2">
                                             <label for="quantity<?php echo $productid; ?>">Quantity</label>
                                             <input class="form-control form-control-sm" type="number" id="quantity<?php echo $productid; ?>" name="quantity" value="<?php echo $productQuantity; ?>" />
@@ -149,16 +161,16 @@
                                         </button>
                                     </form>
                                     <form action="./cart/deletecartitem.php" method="POST">
-                                    <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">                          
+                                        <input type="hidden" name="cart_id" value="<?php echo htmlentities($cart_id); ?>">
 
-                                    <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit" >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 mr-1">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                        </svg>Remove
-                                    </button>
+                                        <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 mr-1">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>Remove
+                                        </button>
                                     </form>
                                 </div>
                             </div>
